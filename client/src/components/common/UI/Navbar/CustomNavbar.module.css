@@ -1,0 +1,11 @@
+.navbarItem:hover {
+    background: #FFF;
+    border-radius: 1rem;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: black !important;
+}
+
+.navbarItem {
+    transition: none !important;
+}

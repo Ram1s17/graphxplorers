@@ -1,0 +1,26 @@
+.mainFrame {
+    background: linear-gradient(90deg, #cbe4ff, #fff2c6, #cbffe4);
+}
+
+.banner {
+    font-size: 90px;
+}
+
+.bannerItem p {
+    white-space: normal;
+}
+
+.bannerItem a {
+    text-decoration: none;
+    padding: 10px 30px;
+    border-radius: 1rem;
+}
+
+.bannerItem a i {
+    margin-right: 10px;
+}
+
+.bannerItem a:hover {
+    background: #FFF2C6;
+    box-shadow: 5px 5px 10px 3px rgba(34, 60, 80, 0.2);
+}

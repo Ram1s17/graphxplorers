@@ -1,0 +1,85 @@
+.feature-item-block {
+    padding: 5px;
+}
+
+.feature-item-block:hover {
+    background-color: #FFF2C6;
+}
+
+.feature-item-block h2 {
+    font-size: 25px;
+}
+
+.feature-item-block .img-block {
+    flex-basis: 25%;
+}
+
+.feature-item-block .info-block {
+    flex-basis: 75%;
+}
+
+.feature-item-block .info-block h2 {
+    font-size: 24px;
+}
+
+.feature-item-block .info-block p {
+    font-size: 16px;
+}
+
+#log-username-input,
+#log-password-input,
+#reg-username-input,
+#reg-email-input,
+#reg-password-input {
+    background: #FFF2C6;
+    border: 1px solid black;
+}
+
+#login-button:not([disabled]):hover,
+#registration-button:not([disabled]):hover,
+#log-username-input:focus,
+#reg-username-input:focus,
+#reg-email-input:focus,
+#log-password-input:focus,
+#reg-password-input:focus {
+    background: #FFFFFF;
+}
+
+#log-password-input,
+#reg-password-input {
+    border-radius: 1rem 0 0 1rem;
+}
+
+#log-password-input~#log-eye-icon,
+#reg-password-input~#reg-eye-icon {
+    border-radius: 0 1rem 1rem 0;
+    border: 1px solid black
+}
+
+#auth-tabs-tab-login,
+#auth-tabs-tab-registration {
+    color: black;
+}
+
+#auth-tabs-tab-login {
+    border: 1px solid black;
+    border-radius: 1rem 0 0 1rem;
+}
+
+#auth-tabs-tab-registration {
+    border: 1px solid black;
+    border-radius: 0 1rem 1rem 0;
+}
+
+.forgot-password-link:hover {
+    color: #525252;
+    text-decoration: none;
+}
+
+#forgot-password-input:focus {
+    background: #FFF2C6;
+}
+
+#forgot-password-button:not([disabled]):hover {
+    background: white;
+}
