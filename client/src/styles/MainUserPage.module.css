@@ -24,3 +24,9 @@
     background: #FFF2C6;
     box-shadow: 5px 5px 10px 3px rgba(34, 60, 80, 0.2);
 }
+
+@media (width <= 610px) {
+    .banner {
+        font-size: 50px;
+    }
+}

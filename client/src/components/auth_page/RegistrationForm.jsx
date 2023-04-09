@@ -35,10 +35,6 @@ const RegistrationForm = ({ title, switchStatus }) => {
         setIsUsernameValidated(false);
         setIsEmailValidated(false);
         setIsPasswordValidated(false);
-        setIsUsernameInFocus(false);
-        setIsEmailInFocus(false);
-        setIsPasswordInFocus(false);
-        setIsValidated(false);
     };
 
     useEffect(() => {
@@ -63,12 +59,12 @@ const RegistrationForm = ({ title, switchStatus }) => {
     }, [isUsernameValidated, isPasswordValidated, isEmailValidated]);
 
     const checkUsername = () => {
-        const isUsernameValid = /^[A-aa-z0-9_-]{5,16}$/.test(usernameInput.current.value);
+        const isUsernameValid = /^[A-aa-z0-9_-]{4,20}$/.test(usernameInput.current.value);
         isUsernameValid ? setIsUsernameValidated(true) : setIsUsernameValidated(false);
     };
 
     const checkEmail = () => {
-        const isEmailValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(emailInput.current.value);
+        const isEmailValid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,255}))$/.test(emailInput.current.value);
         isEmailValid ? setIsEmailValidated(true) : setIsEmailValidated(false);
     };
 
@@ -110,7 +106,7 @@ const RegistrationForm = ({ title, switchStatus }) => {
             {!isUsernameValidated && isUsernameInFocus &&
                 <Form.Group className='mb-3 text-center'>
                     <Form.Text className='sub-font-reg text-danger'>
-                        Имя пользователя должно состоять из 5-16 символов и может содержать только латинские буквы, цифры, знаки «_» и «-»!
+                        Имя пользователя должно состоять из 4-20 символов и может содержать только латинские буквы, цифры, знаки «_» и «-»!
                     </Form.Text>
                 </Form.Group>
             }

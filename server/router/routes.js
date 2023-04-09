@@ -8,12 +8,15 @@ const router = new Router();
 
 router.post('/registration', authController.registration);
 router.post('/login', authController.login);
-router.post('/logout', authController.logout);
+router.post('/logout', authMiddleware, authController.logout);
 router.post('/forgot_password', authController.forgotPassword);
 router.post('/check_reset_link', authController.checkResetLink);
 router.put('/reset_password', authController.resetPassword);
 router.get('/refresh', authController.refresh);
 
 router.get('/moderators', authMiddleware, adminMiddleware, adminController.getAllModerators);
+router.post('/moderators', authMiddleware, adminMiddleware, adminController.createModerator);
+router.put('/moderators', authMiddleware, adminMiddleware, adminController.updateModerator);
+router.delete('/moderators', authMiddleware, adminMiddleware, adminController.deleteModerator);
 
 module.exports = router;
