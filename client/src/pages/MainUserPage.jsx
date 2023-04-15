@@ -12,10 +12,14 @@ const MainUserPage = () => {
 
     return (
         <Row className={`${cl.mainFrame}`}>
-            <Col className='p-0 overflow-hidden'>
-                <CustomNavbar />
-                <Row className='vh-100 d-flex justify-content-center align-items-center'>
-                    <Col xl={6} className='d-flex justify-content-center align-content-center flex-column'>
+            <Col>
+                <Row>
+                    <Col className='p-0'>
+                        <CustomNavbar />
+                    </Col>
+                </Row>
+                <Row className='d-flex justify-content-center align-items-center mb-2'>
+                    <Col xl={7} className='vh-100 d-flex justify-content-center align-content-center flex-column'>
                         <h1 className={`text-center main-font-bold ${cl.banner}`}>GraphXplorers</h1>
                         <p className='sub-font-reg text-center reg-font-color fs-5 mb-4'>Сервис для обучения решению задач теории графов по теме «Транспортные сети»</p>
                         <Row>
@@ -27,7 +31,6 @@ const MainUserPage = () => {
                 </Row>
             </Col>
         </Row>
-
     );
 };
 

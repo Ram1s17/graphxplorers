@@ -78,7 +78,10 @@ const RegistrationForm = ({ title, switchStatus }) => {
         try {
             event.preventDefault();
             await store.registration(usernameInput.current.value, emailInput.current.value, passwordInput.current.value);
-            router('/main', { replace: true });
+            if (store.userRole !== 'MODERATOR')
+                router('/main');
+            else 
+                router('/theory');
         }
         catch (e) {
             if (e?.status === 500 || e?.status === 503) {

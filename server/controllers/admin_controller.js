@@ -2,8 +2,13 @@ const adminService = require('../services/admin_service');
 
 class AdminController {
     async getAllModerators(req, res, next) {
-        const moderators = await adminService.getAllModerators();
-        return res.status(200).json(moderators);
+        try {
+            const moderators = await adminService.getAllModerators();
+            return res.status(200).json(moderators);
+        }
+        catch (e) {
+            next(e);
+        }
     }
 
     async createModerator(req, res, next) {
@@ -16,7 +21,8 @@ class AdminController {
                 user_name: newModerator.user_name,
                 user_email: newModerator.user_email
             });
-        } catch (e) {
+        }
+        catch (e) {
             next(e);
         }
     }

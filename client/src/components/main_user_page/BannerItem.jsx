@@ -11,7 +11,7 @@ const BannerItem = ({ body, buttonText, path }) => {
                     <p className='sub-font-reg reg-font-color fs-6'>{body}</p>
                 </div>
                 <div className='w-100 mt-2 d-inline-flex justify-content-center'>
-                    <Link to={path} replace className='main-font-bold text-black main-border'><i className="bi bi-arrow-right"></i>{buttonText}</Link>
+                    <Link to={path} className='main-font-bold text-black main-border'><i className="bi bi-arrow-right"></i>{buttonText}</Link>
                 </div>
             </div>
         </Col>

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import LoadingSpinner from "./UI/LoadingSpinner";
 import { adminRoutes, publicRoutes, userRoutes, moderatorRoutes } from "../../http/routes";
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
@@ -8,12 +7,23 @@ import { Context } from "../..";
 const AppRouter = () => {
     const { store } = useContext(Context);
 
-    if (store.isLoading) {
-        return (<Routes><Route path="/*" element={<LoadingSpinner />} /></Routes>);
+    if (!store.isAuth) {
+        return (
+            <Routes>
+                {publicRoutes.map(route =>
+                    <Route
+                        element={<route.element />}
+                        path={route.path}
+                        key={route.path}
+                    />
+                )}
+                <Route path="*" element={<Navigate to="/auth" />} />
+            </Routes>
+        );
     }
 
     return (
-        (store.isAuth && (store.userRole === 'USER'))
+        (store.userRole === 'USER')
             ?
             <Routes>
                 {userRoutes.map(route =>
@@ -23,9 +33,9 @@ const AppRouter = () => {
                         key={route.path}
                     />
                 )}
-                <Route path="*" element={<Navigate to='/main' replace />} />
+                <Route path="*" element={<Navigate to='/main' />} />
             </Routes>
-            : (store.isAuth && (store.userRole === 'ADMIN'))
+            : (store.userRole === 'ADMIN')
                 ?
                 <Routes>
                     {adminRoutes.map(route =>
@@ -35,31 +45,19 @@ const AppRouter = () => {
                             key={route.path}
                         />
                     )}
-                    <Route path="*" element={<Navigate to='/main' replace />} />
+                    <Route path="*" element={<Navigate to='/main' />} />
                 </Routes>
-                : (store.isAuth && (store.userRole === 'MODERATOR'))
-                    ?
-                    <Routes>
-                        {moderatorRoutes.map(route =>
-                            <Route
-                                element={<route.element />}
-                                path={route.path}
-                                key={route.path}
-                            />
-                        )}
-                        <Route path="*" element={<Navigate to='/main' replace />} />
-                    </Routes>
-                    :
-                    <Routes>
-                        {publicRoutes.map(route =>
-                            <Route
-                                element={<route.element />}
-                                path={route.path}
-                                key={route.path}
-                            />
-                        )}
-                        <Route path="*" element={<Navigate to="/auth" replace />} />
-                    </Routes>
+                :
+                <Routes>
+                    {moderatorRoutes.map(route =>
+                        <Route
+                            element={<route.element />}
+                            path={route.path}
+                            key={route.path}
+                        />
+                    )}
+                    <Route path="*" element={<Navigate to='/theory' />} />
+                </Routes>
     );
 };
 

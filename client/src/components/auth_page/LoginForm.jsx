@@ -53,7 +53,10 @@ const LoginForm = ({ title, switchStatus }) => {
         try {
             event.preventDefault();
             await store.login(usernameInput.current.value, passwordInput.current.value);
-            router('/main', { replace: true });
+            if (store.userRole !== 'MODERATOR')
+                router('/main');
+            else 
+                router('/theory');
         }
         catch (e) {
             if (e?.status === 500 || e?.status === 503) {

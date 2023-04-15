@@ -8,7 +8,7 @@ const errorMiddleware = require('./middlewares/error_middleware');
 const PORT = process.env.PORT || 8080;
 const server = express();
 
-server.use(express.json());
+server.use(express.json({limit: '500mb'}));
 server.use(cookieParser());
 server.use(cors({
    credentials: true, 

@@ -16,7 +16,7 @@ The web system is *designed* to teach solving graph theory problems on the topic
 |         |  react-router-dom  | bcryptjs          | 
 |         |  mobx              | cookie-parser     |
 |         |  mobx-react-lite   | cors              |
-|         |                    | nodemailer        |     
+|         |  ckeditor5-react   | nodemailer        |     
 
 ## Contact
 

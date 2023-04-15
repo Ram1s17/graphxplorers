@@ -6,7 +6,7 @@ export default class Store {
     userId = 0;
     userRole = '';
     isAuth = false;
-    isLoading = false;
+    isLoading = true;
     error = {
         bool: false,
         message: ''
