@@ -38,3 +38,7 @@ export const mainFeatureItems = [
         path: '/practice'
     }
 ];
+
+export const getEdgeLabel = (networkConfig, node) => {
+    return networkConfig.isDigitLabelsOnly ? node : networkConfig.letter + node;
+};

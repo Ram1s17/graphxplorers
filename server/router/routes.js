@@ -2,6 +2,7 @@ const Router = require('express').Router;
 const authController = require('../controllers/auth_controller');
 const adminController = require('../controllers/admin_controller');
 const theoryManagementController = require('../controllers/theory_management_controller');
+const problemSolvingController = require('../controllers/problem_solving_controller');
 const authMiddleware = require('../middlewares/auth_middleware');
 const adminMiddleware = require('../middlewares/admin_middleware');
 const moderatorMiddleware = require('../middlewares/moderator_middleware');
@@ -26,5 +27,13 @@ router.get('/theory-management', authMiddleware, moderatorMiddleware, theoryMana
 router.post('/theory-management', authMiddleware, moderatorMiddleware, theoryManagementController.saveTheory);
 
 router.get('/theory', authMiddleware, userMiddleware, theoryManagementController.getTheory);
+router.get('/practice/:id', authMiddleware, userMiddleware, problemSolvingController.getProblem);
+router.post('/check-path', authMiddleware, userMiddleware, problemSolvingController.checkPath);
+router.post('/check-capacities', authMiddleware, userMiddleware, problemSolvingController.checkCapacitiesAndUpdateFlow);
+router.post('/check-current-flow', authMiddleware, userMiddleware, problemSolvingController.checkCurrentFlow);
+router.post('/check-no-path', authMiddleware, userMiddleware, problemSolvingController.checkIsTherePath);
+router.post('/check-nodes', authMiddleware, userMiddleware, problemSolvingController.checkNodesOfMinCut);
+router.post('/check-edges', authMiddleware, userMiddleware, problemSolvingController.checkEdgesOfMinCut);
+router.post('/save-result', authMiddleware, userMiddleware, problemSolvingController.saveResult);
 
 module.exports = router;

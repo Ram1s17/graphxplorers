@@ -7,6 +7,8 @@ import TheoryManagementService from "../services/TheoryManagementService";
 import { Context } from "..";
 import { observer } from "mobx-react-lite";
 import cl from '../styles/TheoryManagementPage.module.css'
+import BeforeUnloadComponent from 'react-beforeunload-component';
+import LeaveConfirmationModal from "../components/common/UI/LeaveConfirmationModal";
 
 const TheoryManagementPage = () => {
     const [content, setContent] = useState('');
@@ -15,7 +17,6 @@ const TheoryManagementPage = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                store.setIsLoading(true);
                 const response = await TheoryManagementService.getTheory();
                 setContent(response.data);
             }
@@ -27,9 +28,6 @@ const TheoryManagementPage = () => {
                 else if (e?.status === 500 || e?.status === 503) {
                     store.setError({ bool: true, message: e?.message });
                 }
-            }
-            finally {
-                store.setIsLoading(false);
             }
         }
         fetchData();
@@ -55,6 +53,18 @@ const TheoryManagementPage = () => {
 
     return (
         <Row >
+            <BeforeUnloadComponent
+                blockRoute={true}
+                modalComponentHandler={({ handleModalLeave, handleModalCancel }) => {
+                    return (
+                        <LeaveConfirmationModal
+                            title="Вы действительно хотите покинуть страницу?"
+                            body="Несохраненные данные будут утеряны"
+                            onClose={handleModalCancel}
+                            onConfirm={handleModalLeave} />
+                    );
+                }}
+            />
             <Col>
                 <Row className='mb-5'>
                     <Col className='p-0'>

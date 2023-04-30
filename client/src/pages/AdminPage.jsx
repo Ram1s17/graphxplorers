@@ -126,7 +126,7 @@ const AdminPage = () => {
     const logout = async () => {
         try {
             await store.logout();
-            router('/auth', { replace: true });
+            router('/auth');
         }
         catch (e) {
             if (e?.status === 401) {

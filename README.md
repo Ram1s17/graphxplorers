@@ -16,7 +16,11 @@ The web system is *designed* to teach solving graph theory problems on the topic
 |         |  react-router-dom  | bcryptjs          | 
 |         |  mobx              | cookie-parser     |
 |         |  mobx-react-lite   | cors              |
-|         |  ckeditor5-react   | nodemailer        |     
+|         |  ckeditor5-react   | nodemailer        |
+|         |  cytoscape         |                   |
+|         |  react-cytoscapejs |                   |
+|         |  react-timer-hook  |                   |
+|         |  react-beforeunload-component|         |   
 
 ## Contact
 

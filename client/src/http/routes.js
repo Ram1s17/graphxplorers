@@ -4,6 +4,7 @@ import MainUserPage from "../pages/MainUserPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import TheoryManagementPage from "../pages/TheoryManagementPage";
 import TheoryPage from "../pages/TheoryPage";
+import ProblemPage from "../pages/ProblemPage";
 
 export const adminRoutes = [
     { path: '/main', element: AdminPage }
@@ -15,7 +16,8 @@ export const moderatorRoutes = [
 
 export const userRoutes = [
     { path: '/main', element: MainUserPage },
-    { path: '/theory', element: TheoryPage }
+    { path: '/theory', element: TheoryPage },
+    { path: '/practice/:id', element: ProblemPage }
 ];
 
 export const publicRoutes = [
