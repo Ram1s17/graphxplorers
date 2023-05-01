@@ -4,9 +4,11 @@ export default class ModalWinStore {
     isSuccessType = false;
     isErrorType = false;
     isResultType = false;
+    isGraphType = false;
     title = '';
     body = '';
     resultArray = [];
+    graphElements = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -24,6 +26,10 @@ export default class ModalWinStore {
         this.isResultType = bool;
     }
 
+    setIsGraphType(bool) {
+        this.isGraphType = bool;
+    }
+
     setTitle(title) {
         this.title = title;
     }
@@ -34,5 +40,9 @@ export default class ModalWinStore {
     
     setResultArray(resultArray) {
         this.resultArray = resultArray;
+    }
+
+    setGraphElements(graphElements) {
+        this.graphElements = graphElements;
     }
 }

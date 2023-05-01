@@ -2,6 +2,11 @@ const db = require('../db');
 const ApiError = require('../exceptions/api_error');
 
 class ProblemSolvingService {
+    async getAllProblems() {
+        const problems = (await db.query("SELECT * FROM problems ORDER BY problem_id")).rows;
+        return problems;
+    }
+
     async getProblem(id) {
         const problem = (await db.query("SELECT * FROM problems WHERE problem_id = $1", [id])).rows;
         if (problem.length === 0) {

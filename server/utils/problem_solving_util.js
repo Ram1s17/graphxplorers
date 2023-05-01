@@ -4,6 +4,9 @@ class ProblemSolvingUtil {
     convertGraph(graph, isFlowType) {
         let nodes = JSON.parse(JSON.stringify(graph.nodes));
         nodes = nodes.map((node) => {
+            if (node.data.id == graph.config.source || node.data.id == graph.config.sink) {
+                node.classes = 'colored';
+            }
             if (graph.config.isDigitLabelsOnly) {
                 node.data.label = String(node.data.id);
                 return node;
@@ -199,12 +202,17 @@ class ProblemSolvingUtil {
         }
     }
 
-    getResidualNetwork(nodesList, adjacencyList) {
+    getResidualNetwork(networkConfig, nodesList, adjacencyList) {
         const nodes = nodesList.map((node) => {
-            return {
+            console.log(node);
+            let processedNode = {
                 data: node.data,
                 position: node.position
+            };
+            if (processedNode.data.id == networkConfig.source || processedNode.data.id == networkConfig.sink) {
+                processedNode.classes = 'colored';
             }
+            return processedNode;
         });
         let edges = [];
         for (let j = 0; j < adjacencyList.length; j++) {
@@ -241,15 +249,19 @@ class ProblemSolvingUtil {
         return nodes.concat(edges);
     }
 
-    getUpdatedFlowNetwork(nodesList, edgesList, pathNodes, pathFow) {
+    getUpdatedFlowNetwork(networkConfig, nodesList, edgesList, pathNodes, pathFow) {
         const nodes = nodesList.map((node) => {
-            return {
+            let processedNode = {
                 data: {
                     id: node.data.id,
                     label: String(node.data.label)
                 },
                 position: node.position
             };
+            if (processedNode.data.id == networkConfig.source || processedNode.data.id == networkConfig.sink) {
+                processedNode.classes = 'colored';
+            }
+            return processedNode;
         });
         let edges = edgesList.map((edge) => {
             let newEdge;
@@ -360,6 +372,14 @@ class ProblemSolvingUtil {
 
     calculatePoints(countOfSteps, countOfMistakes, totalPoints) {
         return totalPoints;
+    }
+
+    convertProblem(problems) {
+        const processedProblems = problems.map((problem) => {
+            let processedGraph = this.convertGraph(problem.graph, false);
+            return { ...problem, graph: processedGraph };
+        });
+        return processedProblems;
     }
 }
 

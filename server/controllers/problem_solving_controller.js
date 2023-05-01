@@ -2,6 +2,17 @@ const problemSolvingService = require('../services/problem_solving_service');
 const problemSolvingUtil = require('../utils/problem_solving_util');
 
 class ProblemSolvingController {
+    async getAllProblems(req, res, next) {
+        try {
+            const problems = await problemSolvingService.getAllProblems();
+            const processedProblems = problemSolvingUtil.convertProblem(problems);
+            return res.status(200).json(processedProblems);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+
     async getProblem(req, res, next) {
         try {
             const { id } = req.params;
@@ -43,7 +54,7 @@ class ProblemSolvingController {
             const { networkConfig, network } = req.body;
             const adjacencyList = problemSolvingUtil.getAdjacencyList(networkConfig, network.edges, false);
             problemSolvingUtil.checkIsTherePath(networkConfig, adjacencyList);
-            const residualNetwork = problemSolvingUtil.getResidualNetwork(network.nodes, adjacencyList);
+            const residualNetwork = problemSolvingUtil.getResidualNetwork(networkConfig, network.nodes, adjacencyList);
             return res.status(200).json({
                 residualNetwork
             });
@@ -60,7 +71,7 @@ class ProblemSolvingController {
             const newAdjacencyList = problemSolvingUtil.getAdjacencyList(networkConfig, network.edges, true);
             problemSolvingUtil.checkNewCapacities(networkConfig, srcAdjacencyList, newAdjacencyList, pathNodes, pathFlow);
             const newCapacitiesNetwork = problemSolvingUtil.getNetworkWithNewCapacities(network.nodes, network.edges);
-            const currentFlowInNetwork = problemSolvingUtil.getUpdatedFlowNetwork(flowNetwork.slice(0, networkConfig.countOfNodes), flowNetwork.slice(networkConfig.countOfNodes), pathNodes, pathFlow);
+            const currentFlowInNetwork = problemSolvingUtil.getUpdatedFlowNetwork(networkConfig, flowNetwork.slice(0, networkConfig.countOfNodes), flowNetwork.slice(networkConfig.countOfNodes), pathNodes, pathFlow);
             return res.status(200).json({
                 newCapacitiesNetwork,
                 currentFlowInNetwork
@@ -76,7 +87,7 @@ class ProblemSolvingController {
             const pathFlow = problemSolvingUtil.getPathFlow(pathCapacities);
             const adjacencyList = problemSolvingUtil.getAdjacencyList(networkConfig, network.slice(networkConfig.countOfNodes), false);
             problemSolvingUtil.checkCurrentFlow(prevFlow, pathFlow, currentFlow);
-            const residualNetwork = problemSolvingUtil.getResidualNetwork(network.slice(0, networkConfig.countOfNodes), adjacencyList);
+            const residualNetwork = problemSolvingUtil.getResidualNetwork(networkConfig, network.slice(0, networkConfig.countOfNodes), adjacencyList);
             return res.status(200).json({
                 residualNetwork
             });

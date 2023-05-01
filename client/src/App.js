@@ -11,6 +11,7 @@ import SuccessResponseModal from "./components/common/UI/SuccessResponseModal";
 import ErrorResponseModal from "./components/common/UI/ErrorResponseModal";
 import LoadingSpinner from "./components/common/UI/LoadingSpinner";
 import ResultModal from "./components/common/UI/ResultModal";
+import NetworkViewModal from "./components/problems_list_page/NetworkViewModal";
 
 const App = observer(() => {
   const { store } = useContext(Context);
@@ -37,6 +38,7 @@ const App = observer(() => {
       <SuccessResponseModal />
       <ErrorResponseModal />
       <ResultModal />
+      <NetworkViewModal />
     </>
   );
 });

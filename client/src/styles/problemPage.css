@@ -19,6 +19,10 @@
     height: 23vh;
 }
 
+#show-network-modal {
+    height: 600px;
+}
+
 .tab {
     background-color: #fff;
     color: black;
@@ -47,4 +51,14 @@
 
 #close-problem-button:hover {
     background: #FFF !important;
+}
+
+.filter {
+    user-select: none;
+    background: #FFF;
+}
+
+.filter-active {
+    user-select: none;
+    background: #FFF2C6;
 }

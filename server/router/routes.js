@@ -35,5 +35,6 @@ router.post('/check-no-path', authMiddleware, userMiddleware, problemSolvingCont
 router.post('/check-nodes', authMiddleware, userMiddleware, problemSolvingController.checkNodesOfMinCut);
 router.post('/check-edges', authMiddleware, userMiddleware, problemSolvingController.checkEdgesOfMinCut);
 router.post('/save-result', authMiddleware, userMiddleware, problemSolvingController.saveResult);
+router.get('/practice', authMiddleware, userMiddleware, problemSolvingController.getAllProblems);
 
 module.exports = router;

@@ -1,6 +1,10 @@
 import $api from "../http/index"
 
 export default class ProblemSolvingService {
+    static async getAllProblems() {
+        return $api.get('/practice');
+    }
+
     static async getProblem(problemId) {
         return $api.get(`/practice/${problemId}`);
     }

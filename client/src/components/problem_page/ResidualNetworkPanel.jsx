@@ -43,6 +43,13 @@ const ResidualNetworkPanel = () => {
                         }
                     },
                     {
+                        selector: '.colored',
+                        style: {
+                            'background-color': '#FFF',
+                            'border-width': '2px'
+                        }
+                    },
+                    {
                         selector: 'edge',
                         style: {
                             width: 2,

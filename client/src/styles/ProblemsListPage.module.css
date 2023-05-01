@@ -1,0 +1,17 @@
+.circle {
+    width: 20px;
+    height: 20px;
+}
+
+.listItem {
+    display: grid;
+    grid-template-columns: 30% 50% 20%;
+    background: linear-gradient(106.88deg, #FFF2C6 39.04%, #CBE4FF 113.51%);
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.25);
+}
+
+.showButton,
+.startButton,
+.resetFilterButton {
+    cursor: pointer;
+}
