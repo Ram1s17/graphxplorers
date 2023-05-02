@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import cl from '../../styles/ProblemsListPage.module.css'
+import cl from '../../../styles/ProblemsListPage.module.css'
 
 const FilterBar = ({ parametrs, setParametrs }) => {
     const [isFilterActive, setIsFilterActive] = useState({ easy: 'filter', hard: 'filter' });

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { Modal } from "react-bootstrap";
-import { Context } from "../..";
+import { Context } from "../../..";
 import { observer } from "mobx-react-lite";
 import CytoscapeComponent from 'react-cytoscapejs';
 

@@ -3,6 +3,7 @@ const authController = require('../controllers/auth_controller');
 const adminController = require('../controllers/admin_controller');
 const theoryManagementController = require('../controllers/theory_management_controller');
 const problemSolvingController = require('../controllers/problem_solving_controller');
+const problemManagementController = require('../controllers/problem_management_controller');
 const authMiddleware = require('../middlewares/auth_middleware');
 const adminMiddleware = require('../middlewares/admin_middleware');
 const moderatorMiddleware = require('../middlewares/moderator_middleware');
@@ -25,6 +26,8 @@ router.delete('/moderators', authMiddleware, adminMiddleware, adminController.de
 
 router.get('/theory-management', authMiddleware, moderatorMiddleware, theoryManagementController.getTheory);
 router.post('/theory-management', authMiddleware, moderatorMiddleware, theoryManagementController.saveTheory);
+router.get('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.getAllProblems);
+router.delete('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.deleteProblem);
 
 router.get('/theory', authMiddleware, userMiddleware, theoryManagementController.getTheory);
 router.get('/practice/:id', authMiddleware, userMiddleware, problemSolvingController.getProblem);

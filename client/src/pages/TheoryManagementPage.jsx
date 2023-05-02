@@ -53,19 +53,19 @@ const TheoryManagementPage = () => {
 
     return (
         <Row >
-            <BeforeUnloadComponent
-                blockRoute={true}
-                modalComponentHandler={({ handleModalLeave, handleModalCancel }) => {
-                    return (
-                        <LeaveConfirmationModal
-                            title="Вы действительно хотите покинуть страницу?"
-                            body="Несохраненные данные будут утеряны"
-                            onClose={handleModalCancel}
-                            onConfirm={handleModalLeave} />
-                    );
-                }}
-            />
             <Col>
+                <BeforeUnloadComponent
+                    blockRoute={true}
+                    modalComponentHandler={({ handleModalLeave, handleModalCancel }) => {
+                        return (
+                            <LeaveConfirmationModal
+                                title="Вы действительно хотите покинуть страницу?"
+                                body="Несохраненные данные будут утеряны"
+                                onClose={handleModalCancel}
+                                onConfirm={handleModalLeave} />
+                        );
+                    }}
+                />
                 <Row className='mb-5'>
                     <Col className='p-0'>
                         <CustomNavbar />

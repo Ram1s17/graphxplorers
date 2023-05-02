@@ -4,9 +4,9 @@ import ProblemSolvingService from "../services/ProblemSolvingService";
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
 import CustomNavbar from "../components/common/UI/Navbar/CustomNavbar";
-import FilterBar from "../components/problems_list_page/FilterBar";
-import SearchBar from "../components/problems_list_page/SearchBar";
-import SortBar from "../components/problems_list_page/SortBar";
+import FilterBar from "../components/common/UI/FilterBar";
+import SearchBar from "../components/common/UI/SearchBar";
+import SortBar from "../components/common/UI/SortBar";
 import ProblemsListItem from "../components/problems_list_page/ProblemsListItem";
 import { useProblems } from "../hooks/useProblems";
 

@@ -6,13 +6,15 @@ import TheoryManagementPage from "../pages/TheoryManagementPage";
 import TheoryPage from "../pages/TheoryPage";
 import ProblemPage from "../pages/ProblemPage";
 import ProblemsListPage from "../pages/ProblemsListPage";
+import ProblemsListManagementPage from "../pages/ProblemsListManagementPage";
 
 export const adminRoutes = [
     { path: '/main', element: AdminPage }
 ];
 
 export const moderatorRoutes = [
-    { path: '/theory', element: TheoryManagementPage }
+    { path: '/theory', element: TheoryManagementPage },
+    { path: '/practice', element: ProblemsListManagementPage },
 ];
 
 export const userRoutes = [
