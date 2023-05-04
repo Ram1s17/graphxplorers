@@ -22,12 +22,12 @@ class AdminService {
         return newUser;
     }
 
-    async updateModerator(id, username, email) {
+    async updateModerator(id, username, email, password) {
         const user = (await db.query('SELECT * FROM Users WHERE user_id = $1', [id])).rows;
         if (user[0].user_role !== 'MODERATOR') {
             throw ApiError.BadRequest('Выбранный пользователь не является модератором!');
         }
-        if (user[0].user_name === username && user[0].user_email === email) {
+        if (password === '' && user[0].user_name === username && user[0].user_email === email) {
             throw ApiError.BadRequest('Вы не изменили данные!');
         }
         const usernameExists = (await db.query('SELECT * FROM Users WHERE user_name LIKE $1 AND NOT (user_id = $2)', [username, id])).rows.length > 0;
@@ -38,7 +38,14 @@ class AdminService {
         if (emailExists) {
             throw ApiError.BadRequest('На данную почту уже заведена учетная запись!');
         }
-        const updatedUser = (await db.query('UPDATE Users SET user_name = $1, user_email = $2 WHERE user_id = $3 RETURNING *', [username, email, id])).rows[0];
+        let updatedUser = null;
+        if (password === '') {
+            updatedUser = (await db.query('UPDATE Users SET user_name = $1, user_email = $2 WHERE user_id = $3 RETURNING *', [username, email, id])).rows[0];
+        }
+        else {
+            const hashPassword = bcrypt.hashSync(password, 7);
+            updatedUser = (await db.query('UPDATE Users SET user_name = $1, user_email = $2, user_password = $3 WHERE user_id = $4 RETURNING *', [username, email, hashPassword, id])).rows[0];
+        }
         return updatedUser;
     }
 

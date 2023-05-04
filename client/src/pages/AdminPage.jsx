@@ -8,11 +8,14 @@ import { Context } from "..";
 import CreateModeratorPanel from "../components/admin_page/CreateModeratorPanel";
 import UpdateModeratorPanel from "../components/admin_page/UpdateModeratorPanel";
 import { useNavigate } from "react-router-dom";
+import BeforeUnloadComponent from 'react-beforeunload-component';
+import LeaveConfirmationModal from "../components/common/UI/LeaveConfirmationModal";
 
 const AdminPage = () => {
     const [moderators, setModerators] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [isAdding, setIsAdding] = useState(true);
+    const [showModal, setShowModal] = useState(false);
     const { store, modalWinStore } = useContext(Context);
     const router = useNavigate();
 
@@ -73,9 +76,9 @@ const AdminPage = () => {
         }
     };
 
-    const updateModerator = async (userId, userName, userEmail) => {
+    const updateModerator = async (userId, userName, userEmail, userPassword, resetInput) => {
         try {
-            const response = (await AdminService.updateModerator(userId, userName, userEmail)).data;
+            const response = (await AdminService.updateModerator(userId, userName, userEmail, userPassword)).data;
             modalWinStore.setIsSuccessType(true);
             modalWinStore.setTitle('Успешно');
             modalWinStore.setBody(response.message);
@@ -101,6 +104,9 @@ const AdminPage = () => {
                 modalWinStore.setTitle('Ошибка');
                 modalWinStore.setBody(e?.message);
             }
+        }
+        finally {
+            resetInput();
         }
     };
 
@@ -142,6 +148,18 @@ const AdminPage = () => {
     return (
         <Row className={`${cl.mainFrame} d-flex justify-content-center`}>
             <Col lg={10} className='d-flex flex-column justify-content-center'>
+                <BeforeUnloadComponent
+                    blockRoute={true}
+                    modalComponentHandler={({ handleModalLeave, handleModalCancel }) => {
+                        return (
+                            <LeaveConfirmationModal
+                                title="Вы действительно хотите покинуть страницу?"
+                                body="Несохраненные данные будут утеряны"
+                                onClose={handleModalCancel}
+                                onConfirm={handleModalLeave} />
+                        );
+                    }}
+                />
                 <h1 className={`text-center main-font-bold ${cl.banner}`}>GraphXplorers</h1>
                 <p className='sub-font-reg text-center reg-font-color fs-5 mb-4'>Администраторская панель</p>
                 <Row className='d-flex justify-content-evenly'>
@@ -151,7 +169,7 @@ const AdminPage = () => {
                     </Col>
                     <Col lg={5} className='d-flex flex-column align-items-center mb-3'>
                         <div className='w-100 d-flex justify-content-end pb-4'>
-                            <button id={cl.logoutButton} onClick={logout} className='bg-transparent rounded-4 ps-4 pe-4 pt-2 pb-2 main-border'>Выйти <i className="bi bi-box-arrow-right"></i></button>
+                            <button id={cl.logoutButton} onClick={() => setShowModal(true)} className='bg-transparent rounded-4 ps-4 pe-4 pt-2 pb-2 main-border'>Выйти <i className="bi bi-box-arrow-right"></i></button>
                         </div>
                         <div className='w-100 d-flex justify-content-evenly align-items-center'>
                             <Form.Label className='main-font-bold fs-5'><i className="bi bi-person-add"></i> Добавление</Form.Label>
@@ -166,6 +184,11 @@ const AdminPage = () => {
                     </Col>
                 </Row>
             </Col>
+            {showModal && <LeaveConfirmationModal
+                title="Вы действительно хотите покинуть страницу?"
+                body="Несохраненные данные будут утеряны"
+                onClose={() => setShowModal(false)}
+                onConfirm={() => logout()} />}
         </Row>
     );
 };

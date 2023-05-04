@@ -7,11 +7,15 @@ import cl from '../../styles/AdminPage.module.css'
 const UpdateModeratorPanel = ({ moderators, updateModer }) => {
     const usernameInput = useRef();
     const emailInput = useRef();
+    const passwordInput = useRef();
     const idSelect = useRef();
+    const [needToBeUpdated, setNeedToBeUpdated] = useState(false);
     const [isUsernameValidated, setIsUsernameValidated] = useState(false);
     const [isEmailValidated, setIsEmailValidated] = useState(false);
+    const [isPasswordValidated, setIsPasswordValidated] = useState(false);
     const [isUsernameInFocus, setIsUsernameInFocus] = useState(false);
     const [isEmailInFocus, setIsEmailInFocus] = useState(false);
+    const [isPasswordInFocus, setIsPasswordInFocus] = useState(false);
     const [isValidated, setIsValidated] = useState(false);
     const [hasOption, setHasPotion] = useState(false);
     const [searchIDquery, setSearchIDquery] = useState('');
@@ -41,16 +45,20 @@ const UpdateModeratorPanel = ({ moderators, updateModer }) => {
             usernameInput.current.value = '';
             emailInput.current.value = '';
         }
+        passwordInput.current.value = '';
         checkUsername();
         checkEmail();
+        checkPassword();
     };
 
     useEffect(() => {
-        if (isUsernameValidated && isEmailValidated)
+        if (!needToBeUpdated && isUsernameValidated && isEmailValidated)
+            setIsValidated(true);
+        else if (needToBeUpdated && isUsernameValidated && isPasswordValidated && isEmailValidated)
             setIsValidated(true);
         else
             setIsValidated(false);
-    }, [isUsernameValidated, isEmailValidated]);
+    }, [isUsernameValidated, isPasswordValidated, isEmailValidated, needToBeUpdated]);
 
     const checkUsername = () => {
         const isUsernameValid = /^[A-aa-z0-9_-]{4,20}$/.test(usernameInput.current.value);
@@ -62,9 +70,21 @@ const UpdateModeratorPanel = ({ moderators, updateModer }) => {
         isEmailValid ? setIsEmailValidated(true) : setIsEmailValidated(false);
     };
 
+    const checkPassword = () => {
+        const isPasswordValid = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,30}$/.test(passwordInput.current.value);
+        isPasswordValid ? setIsPasswordValidated(true) : setIsPasswordValidated(false);
+    };
+
+    const resetInputAfterToogle = () => {
+        setNeedToBeUpdated(!needToBeUpdated);
+        passwordInput.current.value = '';
+        checkPassword();
+    }
+
     const update = (event) => {
         event.preventDefault();
-        updateModer(idSelect.current.value, usernameInput.current.value, emailInput.current.value);
+        updateModer(idSelect.current.value, usernameInput.current.value, emailInput.current.value, passwordInput.current.value, () => { passwordInput.current.value = ''; });
+        checkPassword();
     };
 
     return (
@@ -83,10 +103,17 @@ const UpdateModeratorPanel = ({ moderators, updateModer }) => {
                     </Form.Text>
                 </Form.Group>
             }
+            {needToBeUpdated && !isPasswordValidated && isPasswordInFocus &&
+                <Form.Group className='mb-3 text-center fs-5'>
+                    <Form.Text className='sub-font-reg text-danger'>
+                        Пароль должен состоять из 8-30 символов и включать как минимум по 1 латинской букве в верхнем и нижнем регистре, 1 цифру и 1 специальный символ (!, @, #, $, %, ^, &, *)!
+                    </Form.Text>
+                </Form.Group>
+            }
             <Form.Group className='mb-3'>
                 <InputGroup className='mb-0'>
-                    <Form.Control id={cl.idSearch} as="input" type="search" className='rounded-4 p-3 sub-font-reg reg-font-color text-center bg-transparent' placeholder="Поиск по идентификатору"
-                        value={searchIDquery} onChange={(e) => setSearchIDquery(e.target.value)} autoComplete='off'/>
+                    <Form.Control id={cl.idSearch} as="input" type="search" className='rounded-4 p-2 sub-font-reg reg-font-color text-center bg-transparent' placeholder="Поиск по идентификатору"
+                        value={searchIDquery} onChange={(e) => setSearchIDquery(e.target.value)} autoComplete='off' />
                 </InputGroup>
             </Form.Group>
             <Form.Group className='mb-3'>
@@ -105,11 +132,26 @@ const UpdateModeratorPanel = ({ moderators, updateModer }) => {
                         onFocus={() => setIsUsernameInFocus(true)} onBlur={() => setIsUsernameInFocus(false)} />
                 </InputGroup>
             </Form.Group>
-            <Form.Group className='mb-3'>
+            <Form.Group className='mb-2'>
                 <InputGroup className='mb-0'>
                     <Form.Control id={cl.emailInput} as="input" type="email" className='rounded-4 p-3 bg-transparent' placeholder="Адрес электронной почты*"
                         ref={emailInput} onChange={checkEmail} autoComplete='off' disabled={!hasOption}
                         onFocus={() => setIsEmailInFocus(true)} onBlur={() => setIsEmailInFocus(false)} />
+                </InputGroup>
+            </Form.Group>
+            <Form.Group className='mb-2 d-flex justify-content-center'>
+                <Form.Check
+                    type='checkbox'
+                    label='Требуется обновление пароля'
+                    disabled={!hasOption}
+                    onChange={resetInputAfterToogle}
+                />
+            </Form.Group>
+            <Form.Group className='mb-3'>
+                <InputGroup>
+                    <Form.Control id={cl.passwordInput} as="input" type="text" className='main-border rounded-4 p-3 bg-transparent' placeholder="Пароль*"
+                        ref={passwordInput} onChange={checkPassword} autoComplete='off' disabled={!hasOption || !needToBeUpdated}
+                        onFocus={() => setIsPasswordInFocus(true)} onBlur={() => setIsPasswordInFocus(false)} />
                 </InputGroup>
             </Form.Group>
             <button id={cl.createOrUpdate} type="submit" className='w-100 rounded-4 p-3 sub-font-reg bg-transparent'

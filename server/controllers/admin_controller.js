@@ -29,8 +29,8 @@ class AdminController {
 
     async updateModerator(req, res, next) {
         try {
-            const { id, username, email } = req.body;
-            const updatedModerator = await adminService.updateModerator(id, username, email);
+            const { id, username, email, password } = req.body;
+            const updatedModerator = await adminService.updateModerator(id, username, email, password);
             return res.status(200).json({
                 message: "Данные учетной записи обновлены",
                 user_id: updatedModerator.user_id,

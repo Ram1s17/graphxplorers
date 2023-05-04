@@ -9,8 +9,8 @@ export default class AdminService {
         return $api.post('/moderators', { username, email, password });
     }
 
-    static async updateModerator(id, username, email) {
-        return $api.put('/moderators', { id, username, email });
+    static async updateModerator(id, username, email, password) {
+        return $api.put('/moderators', { id, username, email, password });
     }
 
     static async deleteModerator(id) {
