@@ -47,3 +47,11 @@ html, body {
     border-radius: 1rem !important;
     border: 1px solid black !important;
 }
+
+.active-navlink {
+    border: 1px solid #FFF;
+    border-radius: 1rem;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: black !important;
+}
