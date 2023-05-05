@@ -18,7 +18,7 @@ class AdminService {
             throw ApiError.BadRequest('На данную почту уже заведена учетная запись!');
         }
         const hashPassword = bcrypt.hashSync(password, 7);
-        const newUser = (await db.query('INSERT INTO Users (user_name, user_email, user_password, user_role) VALUES ($1, $2, $3, $4) RETURNING *', [username, email, hashPassword, "MODERATOR"])).rows[0];
+        const newUser = (await db.query('INSERT INTO Users (user_name, user_email, user_password, user_role, is_confirmed) VALUES ($1, $2, $3, $4, $5) RETURNING *', [username, email, hashPassword, "MODERATOR", true])).rows[0];
         return newUser;
     }
 

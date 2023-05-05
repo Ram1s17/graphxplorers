@@ -18,7 +18,7 @@ const RegistrationForm = ({ title, switchStatus }) => {
     const [isPasswordInFocus, setIsPasswordInFocus] = useState(false);
     const [isValidated, setIsValidated] = useState(false);
     const [isError, setIsError] = useState({ bool: false, message: '' });
-    const { store } = useContext(Context);
+    const { store, modalWinStore } = useContext(Context);
 
     const router = useNavigate();
 
@@ -80,8 +80,13 @@ const RegistrationForm = ({ title, switchStatus }) => {
             await store.registration(usernameInput.current.value, emailInput.current.value, passwordInput.current.value);
             if (store.userRole !== 'MODERATOR')
                 router('/main');
-            else 
+            else
                 router('/theory');
+            if (!store.isEmailConfirmed) {
+                modalWinStore.setIsErrorType(true);
+                modalWinStore.setTitle('Подтверждение почты');
+                modalWinStore.setBody("На Вашу почту была выслана ссылка. Пожалуйста, перейдите по ней, иначе будет невозможным восстановление доступа к учетной записи");
+            }
         }
         catch (e) {
             if (e?.status === 500 || e?.status === 503) {

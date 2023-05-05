@@ -15,13 +15,16 @@ class AuthService {
             throw ApiError.BadRequest('На данную почту уже заведена учетная запись!');
         }
         const hashPassword = bcrypt.hashSync(password, 7);
-        const newUser = (await db.query('INSERT INTO Users (user_name, user_email, user_password, user_role) VALUES ($1, $2, $3, DEFAULT) RETURNING *', [username, email, hashPassword])).rows[0];
+        const newUser = (await db.query('INSERT INTO Users (user_name, user_email, user_password, user_role, is_confirmed) VALUES ($1, $2, $3, DEFAULT, DEFAULT) RETURNING *', [username, email, hashPassword])).rows[0];
         const tokens = tokenService.genereteTokens({
             id: newUser.user_id,
             role: newUser.user_role
         });
         await tokenService.saveToken(newUser.user_id, tokens.refreshToken);
-        return { ...tokens, userId: newUser.user_id, userRole: newUser.user_role };
+        const confirmationToken = tokenService.genereteConfirmationToken({ userId: newUser.user_id }, process.env.JWT_CONFIRMATION_SECRET);
+        const confirmationLink = `${process.env.API_URL}/api/activate/${confirmationToken}`;
+        mailService.sendActivationMail(email, username, confirmationLink);
+        return { ...tokens, userId: newUser.user_id, userRole: newUser.user_role, isConfirmed: newUser.is_confirmed };
     }
 
     async login(username, password) {
@@ -38,7 +41,7 @@ class AuthService {
             role: user[0].user_role
         });
         await tokenService.saveToken(user[0].user_id, tokens.refreshToken);
-        return { ...tokens, userId: user[0].user_id, userRole: user[0].user_role };
+        return { ...tokens, userId: user[0].user_id, userRole: user[0].user_role, isConfirmed: user[0].is_confirmed };
     }
 
     async logout(refreshToken) {
@@ -60,7 +63,22 @@ class AuthService {
             id: user[0].user_id,
             role: user[0].user_role
         });
-        return { ...tokens, userId: user[0].user_id, userRole: user[0].user_role };
+        return { ...tokens, userId: user[0].user_id, userRole: user[0].user_role, isConfirmed: user[0].is_confirmed };
+    }
+
+    async activate(token) {
+        const userData = tokenService.validateLinkToken(token, process.env.JWT_CONFIRMATION_SECRET);
+        if (!userData || !userData?.userId) {
+            throw ApiError.BadRequest('Ссылка недействительна!');
+        }
+        const user = (await db.query('SELECT * FROM Users WHERE user_id = $1', [userData.userId])).rows;
+        if (user.length === 0) {
+            throw ApiError.BadRequest('К данной почте не привязана учетная запись!');
+        }
+        if (user[0].is_confirmed) {
+            throw ApiError.BadRequest('Почта уже была подтверждена!');
+        }
+        await db.query('UPDATE Users SET is_confirmed = $1 WHERE user_id = $2', [true, userData.userId]);
     }
 
     async forgotPassword(email) {
@@ -70,6 +88,9 @@ class AuthService {
         }
         if (user[0].user_role === 'MODERATOR') {
             throw ApiError.BadRequest('Сброс пароля невозможен!');
+        }
+        if (!user[0].is_confirmed) {
+            throw ApiError.BadRequest('Данная почта не подтверждена!');
         }
         const resetToken = tokenService.genereteResetToken({ userId: user[0].user_id }, user[0].user_password);
         const resetLink = `${process.env.CLIENT_URL}/reset_password/${user[0].user_id}/${resetToken}`;
@@ -81,7 +102,7 @@ class AuthService {
         if (user.length === 0) {
             throw ApiError.BadRequest('Ссылка недействительна!');
         }
-        const userData = tokenService.validateResetToken(token, user[0].user_password);
+        const userData = tokenService.validateLinkToken(token, user[0].user_password);
         if (!userData || userData.userId != id) {
             throw ApiError.BadRequest('Ссылка недействительна!');
         }

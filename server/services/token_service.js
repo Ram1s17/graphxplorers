@@ -15,6 +15,10 @@ class TokenService {
         return jwt.sign(payload, secret, { expiresIn: '15m' });
     }
 
+    genereteConfirmationToken(payload, secret) {
+        return jwt.sign(payload, secret, { });
+    }
+
     validateAccessToken(token) {
         try {
             const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
@@ -33,7 +37,7 @@ class TokenService {
         }
     }
 
-    validateResetToken(token, secret) {
+    validateLinkToken(token, secret) {
         try {
             const userData = jwt.verify(token, secret);
             return userData;

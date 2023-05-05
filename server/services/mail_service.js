@@ -31,6 +31,26 @@ class MailService {
                 `
         });
     }
+
+    sendActivationMail(to, username, link) {
+        this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: 'Подтверждение почты от учетной записи GraphXplorers',
+            text: '',
+            html:
+                `
+                    <div>
+                        <h1>Здравствуйте, ${username}!</h1>
+                        <p>Перейдите по данной ссылке, чтобы подтвердить Вашу почту:  <a href="${link}">${link}</a></p>
+                        <p>Данная процедура необходима для возможности восстановления доступа к учетной записи</p>
+                        <p><b>ВНИМАНИЕ:</b> Если Вы не регистрировались в нашем сервисе, проигнорируйте данное сообщение</p>
+                        <br>
+                        <i>С уважением, служба поддержки <a href="${process.env.CLIENT_URL}">GraphXplorers</a>!</i>
+                    </div>
+                `
+        });
+    }
 }
 
 module.exports = new MailService();

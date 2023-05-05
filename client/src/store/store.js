@@ -5,6 +5,7 @@ import axios from "axios";
 export default class Store {
     userId = 0;
     userRole = '';
+    isEmailConfirmed = true;
     isAuth = false;
     isLoading = true;
     error = {
@@ -22,6 +23,10 @@ export default class Store {
 
     setUserRole(userRole) {
         this.userRole = userRole;
+    }
+
+    setIsEmailConfirmed(isEmailConfirmed) {
+        this.isEmailConfirmed = isEmailConfirmed;
     }
 
     setIsAuth(bool) {
@@ -43,6 +48,7 @@ export default class Store {
             this.setIsAuth(true);
             this.setUserId(response.data.userId);
             this.setUserRole(response.data.userRole);
+            this.setIsEmailConfirmed(response.data.isConfirmed);
         } catch (e) {
             throw e;
         }
@@ -55,6 +61,7 @@ export default class Store {
             this.setIsAuth(true);
             this.setUserId(response.data.userId);
             this.setUserRole(response.data.userRole);
+            this.setIsEmailConfirmed(response.data.isConfirmed);
         } catch (e) {
             throw e;
         }
@@ -80,10 +87,12 @@ export default class Store {
             this.setIsAuth(true);
             this.setUserId(response.data.userId);
             this.setUserRole(response.data.userRole);
+            this.setIsEmailConfirmed(response.data.isConfirmed);
         } catch (e) {
             this.setIsAuth(false);
             this.setUserId(0);
             this.setUserRole('');
+            this.setIsEmailConfirmed(false);
             if (e.response) {
                 if (e.response.status === 401)
                     this.setError({ bool: true, message: "Прошло 30 дней с Вашей авторизации. Авторизуйтесь снова, пожалуйста!" })

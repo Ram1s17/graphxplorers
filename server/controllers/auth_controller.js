@@ -6,7 +6,7 @@ class AuthController {
             const { username, password, email } = req.body;
             const userData = await authService.registration(username, email, password);
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-            return res.status(200).json({ accessToken: userData.accessToken, userId: userData.userId, userRole: userData.userRole });
+            return res.status(200).json({ accessToken: userData.accessToken, userId: userData.userId, userRole: userData.userRole, isConfirmed: userData.isConfirmed });
         } catch (e) {
             next(e);
         }
@@ -17,7 +17,7 @@ class AuthController {
             const { username, password } = req.body;
             const userData = await authService.login(username, password);
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
-            return res.status(200).json({ accessToken: userData.accessToken, userId: userData.userId, userRole: userData.userRole });
+            return res.status(200).json({ accessToken: userData.accessToken, userId: userData.userId, userRole: userData.userRole, isConfirmed: userData.isConfirmed });
         } catch (e) {
             next(e);
         }
@@ -38,9 +38,19 @@ class AuthController {
         try {
             const { refreshToken } = req.cookies;
             const userData = await authService.refresh(refreshToken);
-            return res.status(200).json({ accessToken: userData.accessToken, userId: userData.userId, userRole: userData.userRole });
+            return res.status(200).json({ accessToken: userData.accessToken, userId: userData.userId, userRole: userData.userRole, isConfirmed: userData.isConfirmed });
         } catch (e) {
             next(e);
+        }
+    }
+
+    async activate(req, res, next) {
+        try {
+            const confirmationLink = req.params.link;
+            await authService.activate(confirmationLink);
+            return res.send(`<h1 style='text-align: center;'>Почта подтверждена</h1>`);
+        } catch (e) {
+            return res.send(`<h1 style='text-align: center;'>${e?.message}</h1>`);
         }
     }
 

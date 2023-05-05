@@ -11,7 +11,7 @@ const LoginForm = ({ title, switchStatus }) => {
     const [isPasswordType, setIsPasswordType] = useState(true);
     const [isNotEmpty, setIsNotEmpty] = useState(false);
     const [isError, setIsError] = useState({ bool: false, message: '' });
-    const { store } = useContext(Context);
+    const { store, modalWinStore } = useContext(Context);
 
     const router = useNavigate();
 
@@ -57,6 +57,11 @@ const LoginForm = ({ title, switchStatus }) => {
                 router('/main');
             else 
                 router('/theory');
+            if (!store.isEmailConfirmed) {
+                modalWinStore.setIsErrorType(true);
+                modalWinStore.setTitle('Подтверждение почты');
+                modalWinStore.setBody("На Вашу почту была выслана ссылка. Пожалуйста, перейдите по ней, иначе будет невозможным восстановление доступа к учетной записи");
+            }
         }
         catch (e) {
             if (e?.status === 500 || e?.status === 503) {

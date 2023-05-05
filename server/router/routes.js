@@ -18,6 +18,7 @@ router.post('/forgot_password', authController.forgotPassword);
 router.post('/check_reset_link', authController.checkResetLink);
 router.put('/reset_password', authController.resetPassword);
 router.get('/refresh', authController.refresh);
+router.get('/activate/:link', authController.activate);
 
 router.get('/moderators', authMiddleware, adminMiddleware, adminController.getAllModerators);
 router.post('/moderators', authMiddleware, adminMiddleware, adminController.createModerator);
