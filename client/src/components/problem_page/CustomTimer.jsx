@@ -4,7 +4,7 @@ import { Context } from "../..";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 
-const CustomTimer = ({ problemId }) => {
+const CustomTimer = ({ problemId, isProblemSolved }) => {
     const { seconds, minutes, hours } = useStopwatch({ autoStart: true });
     const { store, problemSolvingStore } = useContext(Context);
     const router = useNavigate();
@@ -15,7 +15,7 @@ const CustomTimer = ({ problemId }) => {
 
     useEffect(() => {
         async function postData() {
-            if (problemSolvingStore.isProblemSolved) {
+            if (isProblemSolved) {
                 problemSolvingStore.setTime(`${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
                 try {
                     await problemSolvingStore.saveResult(problemId, store.userId);
@@ -33,10 +33,12 @@ const CustomTimer = ({ problemId }) => {
             }
         }
         postData();
-    }, [problemSolvingStore.isProblemSolved]);
+    }, [isProblemSolved]);
 
     return (
-        <div className='main-border color-4 rounded-4 ps-5 pe-5 pt-1 pb-1 main-font-bold fs-3'>{formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}</div>
+        <div className='d-flex justify-content-center align-items-center main-border color-4 rounded-4 ps-5 pe-5 pt-1 pb-1 main-font-bold fs-3'>
+            {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}
+        </div>
     );
 };
 

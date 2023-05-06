@@ -34,7 +34,8 @@ const NodesChoicePanel = () => {
                 store.setError({ bool: true, message: e?.message });
             }
             else if (e?.status === 400) {
-                problemSolvingStore.setCountOfMistakes(problemSolvingStore.countOfMistakes + 1);
+                let minCutMistakes = problemSolvingStore.mistakes["minCut"];
+                problemSolvingStore.setMistakes({...problemSolvingStore.mistakes, minCut: minCutMistakes + 1});
                 modalWinStore.setIsErrorType(true);
                 modalWinStore.setTitle('Ошибка');
                 modalWinStore.setBody(e?.message);

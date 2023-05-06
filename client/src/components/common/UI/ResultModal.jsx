@@ -22,7 +22,7 @@ const ResultModal = () => {
             <Modal.Body className='color-3 rounded-4 p-4'>
                 <h2 className='main-font-bold text-center mb-3'>{modalWinStore.title}</h2>
                 {modalWinStore.resultArray.map((result, index) => 
-                     <p key={index} className='sub-font-reg text-black text-center'><i className="bi bi-award"></i> {result.parametr}: <strong>{result.value}</strong></p>
+                     <p key={index} className='sub-font-reg text-black ms-4'><i className="bi bi-award"></i> {result.parametr}: <strong>{result.value}</strong></p>
                 )}
             </Modal.Body>
         </Modal>

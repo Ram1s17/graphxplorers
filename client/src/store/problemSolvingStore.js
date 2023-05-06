@@ -5,7 +5,14 @@ export default class ProblemSolvingStore {
     step = 1;
     points = 0;
     time = '';
+    mistakes = {
+        path: 0,
+        newCapacities: 0,
+        currentFlow: 0,
+        minCut: 0
+    };
     countOfMistakes = 0;
+    resultPoints = '';
     currentFlow = 0;
     sourceNetwork = [];
     residualNetwork = [];
@@ -15,11 +22,11 @@ export default class ProblemSolvingStore {
     pathNodes = [];
     pathCapacities = [];
     networkConfig = {};
+    evaluationCriteria = {};
     isChoosingNewCapacities = false;
     areCapacitiesUpdated = false;
     isChoosingMinCut = false;
     areNodesChosen = false;
-    isProblemSolved = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -37,8 +44,16 @@ export default class ProblemSolvingStore {
         this.time = time;
     }
 
+    setMistakes(mistakes) {
+        this.mistakes = mistakes;
+    }
+
     setCountOfMistakes(countOfMistakes) {
         this.countOfMistakes = countOfMistakes;
+    }
+
+    setResultPoints(resultPoints) {
+        this.resultPoints = resultPoints;
     }
 
     setCurrentFlow(currentFlow) {
@@ -77,6 +92,10 @@ export default class ProblemSolvingStore {
         this.networkConfig = networkConfig;
     }
 
+    setEvaluationCriteria(evaluationCriteria) {
+        this.evaluationCriteria = evaluationCriteria;
+    }
+
     setIsChoosingNewCapacities(bool) {
         this.isChoosingNewCapacities = bool;
     }
@@ -93,15 +112,18 @@ export default class ProblemSolvingStore {
         this.areNodesChosen = bool;
     }
 
-    setIsProblemSolved(bool) {
-        this.isProblemSolved = bool;
-    }
-
     initStates() {
         this.setStep(1);
         this.setPoints(0);
         this.setTime('');
+        this.setMistakes({
+            path: 0,
+            newCapacities: 0,
+            currentFlow: 0,
+            minCut: 0
+        });
         this.setCountOfMistakes(0);
+        this.setResultPoints('');
         this.setCurrentFlow(0);
         this.setSourceNetwork([]);
         this.setResidualNetwork([]);
@@ -111,11 +133,11 @@ export default class ProblemSolvingStore {
         this.setPathNodes([]);
         this.setPathCapacities([]);
         this.setNetworkConfig({});
+        this.setEvaluationCriteria({});
         this.setIsChoosingNewCapacities(false);
         this.setAreCapacitiesUpdated(false);
         this.setIsChoosingMinCut(false);
         this.setAreNodesChosen(false);
-        this.setIsProblemSolved(false);
     }
 
     async getProblem(problem_id) {
@@ -123,6 +145,7 @@ export default class ProblemSolvingStore {
             const response = await ProblemSolvingService.getProblem(problem_id);
             this.setPoints(response.data.points);
             this.setNetworkConfig(response.data.networkConfig);
+            this.setEvaluationCriteria(response.data.evaluationCriteria);
             this.setSourceNetwork(response.data.residualNetwork);
             this.setResidualNetwork(response.data.residualNetwork);
             this.setCurrentFlowInNetwork(response.data.currentFlowInNetwork);
@@ -174,6 +197,7 @@ export default class ProblemSolvingStore {
     async checkIsTherePath(network) {
         try {
             const response = await ProblemSolvingService.checkIsTherePath(this.networkConfig, network);
+            this.setStep(this.step + 1);
             this.setResidualNetwork(this.sourceNetwork);
             this.setMinCutNetwork(response.data.residualNetwork);
             this.setIsChoosingMinCut(true);
@@ -197,7 +221,6 @@ export default class ProblemSolvingStore {
     async checkEdgesOfMinCut(edges) {
         try {
             await ProblemSolvingService.checkEdgesOfMinCut(this.networkConfig, this.sourceNetwork, this.pathNodes, edges);
-            this.setIsProblemSolved(true);
         }
         catch (e) {
             throw e;
@@ -210,12 +233,15 @@ export default class ProblemSolvingStore {
                 dateOfSolving: (new Date()).toLocaleString(),
                 spentTime: this.time,
                 countOfSteps: this.step,
-                countOfMistakes: this.countOfMistakes,
+                evaluationCriteria: this.evaluationCriteria,
+                mistakes: this.mistakes,
                 totalPoints: this.points,
                 userId,
                 problemId: Number(problemId)
             };
-            await ProblemSolvingService.saveResult(userResult);
+            const response = await ProblemSolvingService.saveResult(userResult);
+            this.setCountOfMistakes(response.data.countOfMistakes);
+            this.setResultPoints(response.data.resultPoints);
         }
         catch (e) {
             throw e;

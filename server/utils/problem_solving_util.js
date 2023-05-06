@@ -204,7 +204,6 @@ class ProblemSolvingUtil {
 
     getResidualNetwork(networkConfig, nodesList, adjacencyList) {
         const nodes = nodesList.map((node) => {
-            console.log(node);
             let processedNode = {
                 data: node.data,
                 position: node.position
@@ -370,8 +369,27 @@ class ProblemSolvingUtil {
         }
     }
 
-    calculatePoints(countOfSteps, countOfMistakes, totalPoints) {
-        return totalPoints;
+    calculatePoints(evaluationCriteria, mistakes, totalPoints) {
+        let impossiblePoints = [];
+        for (let points of Object.keys(evaluationCriteria)) {
+            for (let stageName of Object.keys(mistakes)) {
+                if (evaluationCriteria[points][stageName] < mistakes[stageName]) {
+                    impossiblePoints.push(+points);
+                    break;
+                }
+            }
+        }
+        const possiblePoints = [0].concat(Object.keys(evaluationCriteria)).map((points) => {
+            return Number(points);
+        }).filter((points) => !impossiblePoints.includes(points));
+        let resultPoints = -1;
+        for (let points of possiblePoints) {
+            if (points > resultPoints) {
+                resultPoints = points;
+            }
+        }
+        let countOfMistakes = Object.values(mistakes).reduce((partialSum, a) => partialSum + a, 0);
+        return { countOfMistakes, resultPoints: resultPoints + '/' + totalPoints };
     }
 
     convertProblem(problems) {

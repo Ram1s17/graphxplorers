@@ -21,6 +21,7 @@ class ProblemSolvingController {
             const currentFlowInNetwork = problemSolvingUtil.convertGraph(problem.graph, true);
             return res.status(200).json({
                 points: problem.points,
+                evaluationCriteria: problem.evaluation_criteria,
                 networkConfig: problem.graph.config,
                 residualNetwork,
                 currentFlowInNetwork
@@ -123,18 +124,19 @@ class ProblemSolvingController {
     async saveResult(req, res, next) {
         try {
             const { userResult } = req.body;
-            const points = problemSolvingUtil.calculatePoints(userResult.countOfSteps, userResult.countOfMistakes, userResult.totalPoints);
+            const { countOfMistakes, resultPoints } = problemSolvingUtil.calculatePoints(userResult.evaluationCriteria, userResult.mistakes, userResult.totalPoints);
             const result = {
                 dateOfSolving: userResult.dateOfSolving.split(', ').join(' '),
-	            spentTime: userResult.spentTime,
+                spentTime: userResult.spentTime,
                 countOfSteps: userResult.countOfSteps,
-	            countOfMistakes: userResult.countOfMistakes,
-	            countOfPoints: points,
-	            userId: userResult.userId,
-	            problemId: userResult.problemId
+                countOfMistakes,
+                stageMistakes: userResult.mistakes,
+                resultPoints,
+                userId: userResult.userId,
+                problemId: userResult.problemId
             };
             problemSolvingService.saveResult(result);
-            return res.status(200).json("Результат успешно сохранен");
+            return res.status(200).json({ resultPoints, countOfMistakes });
         } catch (e) {
             next(e);
         }

@@ -98,7 +98,8 @@ const NewCapacitiesPanel = () => {
                 store.setError({ bool: true, message: e?.message });
             }
             else if (e?.status === 400) {
-                problemSolvingStore.setCountOfMistakes(problemSolvingStore.countOfMistakes + 1);
+                let newCapacitiesMistakes = problemSolvingStore.mistakes["newCapacities"];
+                problemSolvingStore.setMistakes({...problemSolvingStore.mistakes, newCapacities: newCapacitiesMistakes + 1});
                 modalWinStore.setIsErrorType(true);
                 modalWinStore.setTitle('Ошибка');
                 modalWinStore.setBody(e?.message);

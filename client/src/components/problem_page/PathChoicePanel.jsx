@@ -43,7 +43,8 @@ const PathChoice = () => {
                 store.setError({ bool: true, message: e?.message });
             }
             else if (e?.status === 400) {
-                problemSolvingStore.setCountOfMistakes(problemSolvingStore.countOfMistakes + 1);
+                let pathMistakes = problemSolvingStore.mistakes["path"];
+                problemSolvingStore.setMistakes({...problemSolvingStore.mistakes, path: pathMistakes + 1});
                 modalWinStore.setIsErrorType(true);
                 modalWinStore.setTitle('Ошибка');
                 modalWinStore.setBody(e?.message);

@@ -36,7 +36,8 @@ const StepFlowPanel = () => {
                     store.setError({ bool: true, message: e?.message });
                 }
                 else if (e?.status === 400) {
-                    problemSolvingStore.setCountOfMistakes(problemSolvingStore.countOfMistakes + 1);
+                    let currentFlowMistakes = problemSolvingStore.mistakes["currentFlow"];
+                    problemSolvingStore.setMistakes({...problemSolvingStore.mistakes, currentFlow: currentFlowMistakes + 1});
                     modalWinStore.setIsErrorType(true);
                     modalWinStore.setTitle('Ошибка');
                     modalWinStore.setBody(e?.message);

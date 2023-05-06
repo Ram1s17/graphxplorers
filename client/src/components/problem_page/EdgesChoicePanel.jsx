@@ -6,7 +6,7 @@ import { checkNodes } from "../../lib/validationUtil";
 import { getEdgeLabel } from "../../lib/content";
 import { when } from "mobx";
 
-const EdgesChoicePanel = () => {
+const EdgesChoicePanel = ({ setIsProblemSolved }) => {
     const { store, modalWinStore, problemSolvingStore } = useContext(Context);
     const sourceNodeInput = useRef();
     const targetNodeInput = useRef();
@@ -39,14 +39,24 @@ const EdgesChoicePanel = () => {
     const checkEdgesOfMinCut = async () => {
         try {
             await problemSolvingStore.checkEdgesOfMinCut(edgesList);
-            when(() => problemSolvingStore.time,
+            setIsProblemSolved(true);
+            when(() => problemSolvingStore.time && problemSolvingStore.resultPoints,
                 () => {
-                    modalWinStore.setIsResultType(true);
-                    modalWinStore.setTitle('Поздравляем с успешным решением задачи');
-                    modalWinStore.setResultArray([
+                    let resultArray = [
+                        { parametr: "Количество заработанных баллов", value: problemSolvingStore.resultPoints },
                         { parametr: "Время, затраченное на решение", value: problemSolvingStore.time },
-                        { parametr: "Количество допущенных ошибок", value: problemSolvingStore.countOfMistakes },
-                        { parametr: "Количество заработанных баллов", value: problemSolvingStore.points }]);
+                        { parametr: "Количество допущенных ошибок", value: problemSolvingStore.countOfMistakes }
+                    ];
+                    if (problemSolvingStore.countOfMistakes) {
+                        resultArray.push(
+                            { parametr: "- при выборе пути", value: problemSolvingStore.mistakes["path"] },
+                            { parametr: "- при вводе новых пропускных способностей", value: problemSolvingStore.mistakes["newCapacities"] },
+                            { parametr: "- при вводе величины текущего потока", value: problemSolvingStore.mistakes["currentFlow"] },
+                            { parametr: "- при нахождении минимального разреза", value: problemSolvingStore.mistakes["minCut"] });
+                    }
+                    modalWinStore.setIsResultType(true);
+                    modalWinStore.setTitle('Поздравляем с решением задачи!');
+                    modalWinStore.setResultArray(resultArray);
                 });
         }
         catch (e) {
@@ -58,7 +68,8 @@ const EdgesChoicePanel = () => {
                 store.setError({ bool: true, message: e?.message });
             }
             else if (e?.status === 400) {
-                problemSolvingStore.setCountOfMistakes(problemSolvingStore.countOfMistakes + 1);
+                let minCutMistakes = problemSolvingStore.mistakes["minCut"];
+                problemSolvingStore.setMistakes({ ...problemSolvingStore.mistakes, minCut: minCutMistakes + 1 });
                 modalWinStore.setIsErrorType(true);
                 modalWinStore.setTitle('Ошибка');
                 modalWinStore.setBody(e?.message);

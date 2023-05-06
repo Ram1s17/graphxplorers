@@ -18,6 +18,8 @@ import LeaveConfirmationModal from "../components/common/UI/LeaveConfirmationMod
 
 const ProblemPage = () => {
     const [showModal, setShowModal] = useState(false);
+    const [stageName, setStageName] = useState('Поиск максимального потока');
+    const [isProblemSolved, setIsProblemSolved] = useState(false);
     const { id } = useParams();
     const router = useNavigate();
     const { store, problemSolvingStore } = useContext(Context);
@@ -47,6 +49,12 @@ const ProblemPage = () => {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (problemSolvingStore.isChoosingMinCut) {
+            setStageName('Поиск минимального разреза')
+        }
+    }, [problemSolvingStore.isChoosingMinCut]);
+
     return (
         <Row >
             <BeforeUnloadComponent
@@ -69,8 +77,11 @@ const ProblemPage = () => {
                 </Row>
                 <Row>
                     <Col className='d-flex justify-content-between'>
-                        <CustomTimer problemId={id} />
-                        <h1 className='main-font-bold'>Шаг {problemSolvingStore.step}</h1>
+                        <CustomTimer problemId={id} isProblemSolved={isProblemSolved}/>
+                        <div>
+                            <h2 className='main-font-bold text-center mb-0'>Шаг {problemSolvingStore.step}</h2>
+                            <p className='mb-0 sub-font-reg'>{stageName}</p>
+                        </div>
                         <button id='close-problem-button' className='main-border color-4 rounded-4 ps-5 pe-5 main-font-bold'
                             onClick={() => setShowModal(true)}>Завершить <i className="bi bi-x-circle"></i></button>
                     </Col>
@@ -85,7 +96,7 @@ const ProblemPage = () => {
                     </Col>
                     <Col xl={6} className='p-3'>
                         {problemSolvingStore.isChoosingMinCut ? <NodesChoicePanel /> : problemSolvingStore.isChoosingNewCapacities ? <NewCapacitiesPanel /> : <PathChoicePanel />}
-                        {!problemSolvingStore.isChoosingMinCut ? <StepFlowPanel /> : <EdgesChoicePanel />}
+                        {!problemSolvingStore.isChoosingMinCut ? <StepFlowPanel /> : <EdgesChoicePanel setIsProblemSolved={setIsProblemSolved} />}
                     </Col>
                 </Row>
             </Col>
