@@ -70,7 +70,7 @@ class ProblemSolvingUtil {
             return +node.data.id
         });
         if (!nodes.includes(networkConfig.source)) {
-            throw ApiError.BadRequest('Источник не выбран!');
+            throw ApiError.BadRequest('Исток не выбран!');
         }
         if (!nodes.includes(networkConfig.sink)) {
             throw ApiError.BadRequest('Сток не выбран!');

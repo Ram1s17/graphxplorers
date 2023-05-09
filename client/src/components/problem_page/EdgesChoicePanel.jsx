@@ -3,7 +3,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Context } from "../..";
 import { observer } from "mobx-react-lite";
 import { checkNodes } from "../../lib/validationUtil";
-import { getEdgeLabel } from "../../lib/content";
+import { getNodeLabel } from "../../lib/content";
 import { when } from "mobx";
 
 const EdgesChoicePanel = ({ setIsProblemSolved }) => {
@@ -104,7 +104,7 @@ const EdgesChoicePanel = ({ setIsProblemSolved }) => {
                 <div className='d-flex justify-content-start flex-wrap p-1 w-50 mh-100 overflow-auto'>
                     {edgesList.map((edge, index) =>
                         <div key={index} className='main-border sub-font-reg fs-5 rounded-4 me-2 mb-2 ps-3 pe-3 pt-1 pb-1'>
-                            ({getEdgeLabel(problemSolvingStore.networkConfig, edge.source)};{getEdgeLabel(problemSolvingStore.networkConfig, edge.target)})
+                            ({getNodeLabel(problemSolvingStore.networkConfig, edge.source)};{getNodeLabel(problemSolvingStore.networkConfig, edge.target)})
                             <i className='bi bi-trash' onClick={() => removeEdge(edge)}></i>
                         </div>
                     )}

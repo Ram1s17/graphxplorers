@@ -74,3 +74,20 @@ const checkIsThereEdgeInArr = (edgesList, sourceNode, targetNode) => {
         bool: true
     };
 };
+
+export const checkDeletedNode = (networkConfig, node) => {
+    if (networkConfig.startsFromZero && node == networkConfig.countOfNodes - 1) {
+        return true;
+    }
+    else if (!networkConfig.startsFromZero && node == networkConfig.countOfNodes) {
+        return true;
+    }
+    return false;
+};
+
+export const checkNumberValue = (val) => {
+    if (val === '' || val.includes('e') || val.includes('E') || val.includes('-') || Number(val) < 0 || Number(val) > 15) {
+        return false;
+    }
+    return true;
+};

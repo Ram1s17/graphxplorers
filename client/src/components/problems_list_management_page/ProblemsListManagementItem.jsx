@@ -3,6 +3,7 @@ import { Col } from "react-bootstrap";
 import cl from '../../styles/ProblemsListManagementPage.module.css';
 import { Context } from "../..";
 import ConfirmationModal from "../common/UI/ConfirmationModal/ConfirmationModal";
+import { useNavigate } from "react-router-dom";
 
 const ProblemsListManagementItem = ({ problem, remove }) => {
     const [showModal, setShowModal] = useState(false);
@@ -10,6 +11,7 @@ const ProblemsListManagementItem = ({ problem, remove }) => {
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [deletedProblemId, setDeletedProblemId] = useState(0);
     const { modalWinStore } = useContext(Context);
+    const router = useNavigate();
 
     useEffect(() => {
         if (isConfirmed)
@@ -44,7 +46,7 @@ const ProblemsListManagementItem = ({ problem, remove }) => {
             <div className='d-flex flex-column justify-content-center align-items-center'>
                 <p className={`${cl.deleteButton} fs-4 mb-0`} onClick={removeHandler}><i className="bi bi-trash"></i></p>
                 <p className={`${cl.showButton} fs-4 mb-0`} onClick={showNetwork}><i className="bi bi-eye-fill"></i></p>
-                <p className={`${cl.updateButton} fs-4 mb-0`}><i className="bi bi-pencil-fill"></i></p>
+                <p className={`${cl.updateButton} fs-4 mb-0`} onClick={() => router(`/practice/${problem.problem_id}`)}><i className="bi bi-pencil-fill"></i></p>
             </div>
             <ConfirmationModal showModal={showModal} setShowModal={setShowModal} title={modalInfo.title} body={modalInfo.body} setIsConfirmed={setIsConfirmed}></ConfirmationModal>
         </Col>

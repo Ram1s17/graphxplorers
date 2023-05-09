@@ -27,10 +27,10 @@ const ProblemPage = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                if (!(+id)) {
-                    throw Error();
-                }
-                await problemSolvingStore.getProblem(id);
+                if (!(+id))
+                    router('/practice');
+                else
+                    await problemSolvingStore.getProblem(id);
             }
             catch (e) {
                 if (e?.status === 401) {
@@ -77,7 +77,7 @@ const ProblemPage = () => {
                 </Row>
                 <Row>
                     <Col className='d-flex justify-content-between'>
-                        <CustomTimer problemId={id} isProblemSolved={isProblemSolved}/>
+                        <CustomTimer problemId={id} isProblemSolved={isProblemSolved} />
                         <div>
                             <h2 className='main-font-bold text-center mb-0'>Шаг {problemSolvingStore.step}</h2>
                             <p className='mb-0 sub-font-reg'>{stageName}</p>

@@ -5,6 +5,11 @@
     height: 84vh;
 }
 
+#network-view-panel {
+    border: 1px solid black;
+    border-radius: 1rem;
+}
+
 #path-choice-panel,
 #new-capacities-panel,
 #nodes-choice-panel {
@@ -47,6 +52,10 @@
 
 .problem-button:not(:disabled):hover {
     background: #FFDFE1 !important;
+}
+
+.problem-management-button:not(:disabled):hover {
+    background: #FFF !important;
 }
 
 #close-problem-button:hover {

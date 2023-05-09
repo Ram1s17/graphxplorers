@@ -7,6 +7,7 @@ import TheoryPage from "../pages/TheoryPage";
 import ProblemPage from "../pages/ProblemPage";
 import ProblemsListPage from "../pages/ProblemsListPage";
 import ProblemsListManagementPage from "../pages/ProblemsListManagementPage";
+import ProblemManagementPage from "../pages/ProblemManagemtentPage";
 
 export const adminRoutes = [
     { path: '/main', element: AdminPage }
@@ -15,6 +16,7 @@ export const adminRoutes = [
 export const moderatorRoutes = [
     { path: '/theory', element: TheoryManagementPage },
     { path: '/practice', element: ProblemsListManagementPage },
+    { path: '/practice/:id', element: ProblemManagementPage }
 ];
 
 export const userRoutes = [

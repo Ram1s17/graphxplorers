@@ -39,6 +39,6 @@ export const mainFeatureItems = [
     }
 ];
 
-export const getEdgeLabel = (networkConfig, node) => {
+export const getNodeLabel = (networkConfig, node) => {
     return networkConfig.isDigitLabelsOnly ? node : networkConfig.letter + node;
 };

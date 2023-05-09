@@ -16,3 +16,8 @@
 .updateButton {
     cursor: pointer;
 }
+
+.managementPanel {
+    background: linear-gradient(102.88deg, #CBFFE4 -16.95%, #FFF2C6 105.23%);
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.25);
+}

@@ -12,12 +12,14 @@ import ProblemsListManagementItem from "../components/problems_list_management_p
 import cl from '../styles/ProblemsListManagementPage.module.css';
 import BeforeUnloadComponent from 'react-beforeunload-component';
 import LeaveConfirmationModal from "../components/common/UI/LeaveConfirmationModal";
+import { useNavigate } from "react-router-dom";
 
 const ProblemsListManagementPage = () => {
     const [problems, setProblems] = useState([]);
     const [parametrs, setParametrs] = useState({ filterEasy: false, filterHard: false, sort: '', query: '' });
     const problemsList = useProblems(problems, parametrs.filterEasy, parametrs.filterHard, parametrs.sort, parametrs.query);
     const { store, modalWinStore } = useContext(Context);
+    const router = useNavigate();
 
     useEffect(() => {
         async function fetchData() {
@@ -92,7 +94,7 @@ const ProblemsListManagementPage = () => {
                 <Row className='d-flex justify-content-center'>
                     <Col xl={9}>
                         <Row className='d-flex justify-content-between gap-3'>
-                            <Col xl={5} className={`${cl.listItem} ${cl.addButton} main-border rounded-4 p-5 d-flex justify-content-center align-items-center`}>
+                            <Col xl={5} onClick={() => router('/practice/new')} className={`${cl.listItem} ${cl.addButton} main-border rounded-4 p-5 d-flex justify-content-center align-items-center`}>
                                 <i className="bi bi-plus-square fs-3"></i>
                             </Col>
                             {problemsList.map(problem =>

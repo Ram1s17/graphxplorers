@@ -7,20 +7,23 @@ import Store from './store/store';
 import { BrowserRouter } from 'react-router-dom';
 import ModalWinStore from './store/modalWinStore';
 import ProblemSolvingStore from './store/problemSolvingStore';
+import ProblemManagementStore from './store/problemManagementStore';
 
 export const store = new Store();
 export const modalWinStore = new ModalWinStore();
 export const problemSolvingStore = new ProblemSolvingStore();
+export const problemManagementStore = new ProblemManagementStore();
 
 export const Context = createContext({
     store,
     modalWinStore,
-    problemSolvingStore
+    problemSolvingStore,
+    problemManagementStore
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Context.Provider value={{ store, modalWinStore, problemSolvingStore }}>
+    <Context.Provider value={{ store, modalWinStore, problemSolvingStore, problemManagementStore }}>
         <BrowserRouter>
             <App />
         </BrowserRouter>

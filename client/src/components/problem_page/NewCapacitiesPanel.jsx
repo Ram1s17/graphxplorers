@@ -4,7 +4,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import { Context } from "../..";
 import { observer } from "mobx-react-lite";
 import { checkCapacityAndFlow } from "../../lib/validationUtil";
-import { getEdgeLabel } from "../../lib/content";
+import { getNodeLabel } from "../../lib/content";
 
 const NewCapacitiesPanel = () => {
     let cyRef = useRef();
@@ -170,13 +170,13 @@ const NewCapacitiesPanel = () => {
                     <p className='mb-0 sub-font-reg fs-3 me-1'>(</p>
                     <Form.Select className='rounded-4' ref={sourceNodeSelect} disabled={problemSolvingStore.areCapacitiesUpdated}>
                         {sourceNodesList.map((node) =>
-                            <option key={node} className='text-center' value={node}>{getEdgeLabel(problemSolvingStore.networkConfig, node)}</option>
+                            <option key={node} className='text-center' value={node}>{getNodeLabel(problemSolvingStore.networkConfig, node)}</option>
                         )}
                     </Form.Select>
                     <p className='mb-0 sub-font-reg fs-5 ms-1 fs-3 me-1'>;</p>
                     <Form.Select className='rounded-4' ref={targetNodeSelect} disabled={problemSolvingStore.areCapacitiesUpdated}>
                         {targetNodesList.map((node) =>
-                            <option key={node} className='text-center' value={node}>{getEdgeLabel(problemSolvingStore.networkConfig, node)}</option>
+                            <option key={node} className='text-center' value={node}>{getNodeLabel(problemSolvingStore.networkConfig, node)}</option>
                         )}
                     </Form.Select>
                     <p className='mb-0 sub-font-reg ms-1 fs-3 me-1'>)</p>

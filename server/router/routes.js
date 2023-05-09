@@ -28,6 +28,10 @@ router.delete('/moderators', authMiddleware, adminMiddleware, adminController.de
 router.get('/theory-management', authMiddleware, moderatorMiddleware, theoryManagementController.getTheory);
 router.post('/theory-management', authMiddleware, moderatorMiddleware, theoryManagementController.saveTheory);
 router.get('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.getAllProblems);
+router.get('/practice-management/:id', authMiddleware, moderatorMiddleware, problemManagementController.getProblem);
+router.post('/check-network', authMiddleware, moderatorMiddleware, problemManagementController.checkNetwork);
+router.post('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.createProblem);
+router.put('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.updateProblem);
 router.delete('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.deleteProblem);
 
 router.get('/theory', authMiddleware, userMiddleware, theoryManagementController.getTheory);
