@@ -6,7 +6,7 @@ import { Context } from "../../../..";
 import LeaveConfirmationModal from "../LeaveConfirmationModal";
 
 const CustomNavbar = () => {
-    const [activeNavLinks, setActiveNavLinks] = useState({ main: '', theory: '', tests: '', practice: '', me: '' });
+    const [activeNavLinks, setActiveNavLinks] = useState({ main: '', theory: '', tests: '', questions: '', practice: '', me: '' });
     const [showModal, setShowModal] = useState(false);
     const { store } = useContext(Context);
     const router = useNavigate();
@@ -29,7 +29,7 @@ const CustomNavbar = () => {
     };
 
     useEffect(() => {
-        const states = { main: '', theory: '', tests: '', practice: '', me: '' };
+        const states = { main: '', theory: '', tests: '', questions: '', practice: '', me: '' };
         if (location.pathname.includes('/main')) {
             setActiveNavLinks({ ...states, main: 'active-navlink' });
         }
@@ -38,6 +38,9 @@ const CustomNavbar = () => {
         }
         else if (location.pathname.includes('/tests')) {
             setActiveNavLinks({ ...states, tests: 'active-navlink' });
+        }
+        else if (location.pathname.includes('/questions')) {
+            setActiveNavLinks({ ...states, questions: 'active-navlink' });
         }
         else if (location.pathname.includes('/practice')) {
             setActiveNavLinks({ ...states, practice: 'active-navlink' });
@@ -55,8 +58,9 @@ const CustomNavbar = () => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className='ms-auto'>
                         <Nav.Link as={Link} to="/theory" className={`main-font-bold text-white me-2 ${cl.navbarItem} ${activeNavLinks.theory}`}>Теория</Nav.Link>
-                        <Nav.Link as={Link} to="/tests" className={`main-font-bold text-white me-2 ${cl.navbarItem} ${activeNavLinks.tests}`}>Тесты</Nav.Link>
-                        <Nav.Link as={Link} to="/practice" className={`main-font-bold text-white me-2 ${cl.navbarItem} ${activeNavLinks.practice}`}>Решение задач</Nav.Link>
+                        {store.userRole === 'MODERATOR' && <Nav.Link as={Link} to="/questions" className={`main-font-bold text-white me-2 ${cl.navbarItem} ${activeNavLinks.questions}`}>Вопросы</Nav.Link>}
+                        {store.userRole === 'USER' && <Nav.Link as={Link} to="/tests" className={`main-font-bold text-white me-2 ${cl.navbarItem} ${activeNavLinks.tests}`}>Тесты</Nav.Link>}
+                        <Nav.Link as={Link} to="/practice" className={`main-font-bold text-white me-2 ${cl.navbarItem} ${activeNavLinks.practice}`}>{store.userRole === 'MODERATOR' ? 'Задачи' : 'Решение задач'}</Nav.Link>
                         {store.userRole === 'MODERATOR' && <Nav.Link as={Link} className={`main-font-bold text-white ${cl.navbarItem}`}
                             onClick={() => setShowModal(true)}><i className='bi bi-box-arrow-right' /> Выйти</Nav.Link>}
                         {store.userRole === 'USER' && <Nav.Link as={Link} to="/me" className={`main-font-bold text-white ${cl.navbarItem} ${activeNavLinks.me}`}>Личный кабинет <i className='bi bi-person-circle' /></Nav.Link>}

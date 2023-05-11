@@ -2,6 +2,7 @@ const Router = require('express').Router;
 const authController = require('../controllers/auth_controller');
 const adminController = require('../controllers/admin_controller');
 const theoryManagementController = require('../controllers/theory_management_controller');
+const questionManagementController = require('../controllers/question_management_controller');
 const problemSolvingController = require('../controllers/problem_solving_controller');
 const problemManagementController = require('../controllers/problem_management_controller');
 const authMiddleware = require('../middlewares/auth_middleware');
@@ -27,6 +28,11 @@ router.delete('/moderators', authMiddleware, adminMiddleware, adminController.de
 
 router.get('/theory-management', authMiddleware, moderatorMiddleware, theoryManagementController.getTheory);
 router.post('/theory-management', authMiddleware, moderatorMiddleware, theoryManagementController.saveTheory);
+router.get('/question-management', authMiddleware, moderatorMiddleware, questionManagementController.getAllQuestions);
+router.get('/question-management/theoretical/:id', authMiddleware, moderatorMiddleware, questionManagementController.getTheoryQuestion);
+router.post('/question-management/theoretical', authMiddleware, moderatorMiddleware, questionManagementController.createTheoryQuestion);
+router.put('/question-management/theoretical', authMiddleware, moderatorMiddleware, questionManagementController.updateTheoryQuestion);
+router.delete('/question-management', authMiddleware, moderatorMiddleware, questionManagementController.deleteQuestion);
 router.get('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.getAllProblems);
 router.get('/practice-management/:id', authMiddleware, moderatorMiddleware, problemManagementController.getProblem);
 router.post('/check-network', authMiddleware, moderatorMiddleware, problemManagementController.checkNetwork);

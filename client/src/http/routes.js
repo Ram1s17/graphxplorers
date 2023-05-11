@@ -8,6 +8,8 @@ import ProblemPage from "../pages/ProblemPage";
 import ProblemsListPage from "../pages/ProblemsListPage";
 import ProblemsListManagementPage from "../pages/ProblemsListManagementPage";
 import ProblemManagementPage from "../pages/ProblemManagemtentPage";
+import QuestionsListManagementPage from "../pages/QuestionsListManagementPage";
+import TheoryQuestionManagementPage from "../pages/TheoryQuestionManagementPage";
 
 export const adminRoutes = [
     { path: '/main', element: AdminPage }
@@ -15,6 +17,8 @@ export const adminRoutes = [
 
 export const moderatorRoutes = [
     { path: '/theory', element: TheoryManagementPage },
+    { path: '/questions', element: QuestionsListManagementPage },
+    { path: '/questions/theoretical/:id', element: TheoryQuestionManagementPage },
     { path: '/practice', element: ProblemsListManagementPage },
     { path: '/practice/:id', element: ProblemManagementPage }
 ];

@@ -1,0 +1,43 @@
+.showButton,
+.addButton,
+.deleteButton,
+.updateButton,
+.resetFilterButton,
+.nextButton,
+.prevButton {
+    cursor: pointer;
+}
+
+.listItem {
+    display: grid;
+    grid-template-columns: 70% 20% 10%;
+    background: linear-gradient(102.88deg, #CBFFE4 -16.95%, #FFF2C6 105.23%);
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.25);
+}
+
+.addListItem {
+    background: linear-gradient(102.88deg, #CBFFE4 -16.95%, #FFF2C6 105.23%);
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.25);
+}
+
+.managementPanel {
+    background: linear-gradient(106.88deg, #FFF2C6 39.04%, #CBE4FF 113.51%);
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.25);
+}
+
+.questionTextarea {
+    resize: none;
+}
+
+.questionTextarea::-webkit-scrollbar {
+    display: none;
+}
+
+.answerOption {
+    display: grid;
+    grid-template-columns: 10% 10% 70% 10%;
+}
+
+.optionIDselect {
+    width: 100px !important;
+}
