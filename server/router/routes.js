@@ -32,6 +32,9 @@ router.get('/question-management', authMiddleware, moderatorMiddleware, question
 router.get('/question-management/theoretical/:id', authMiddleware, moderatorMiddleware, questionManagementController.getTheoryQuestion);
 router.post('/question-management/theoretical', authMiddleware, moderatorMiddleware, questionManagementController.createTheoryQuestion);
 router.put('/question-management/theoretical', authMiddleware, moderatorMiddleware, questionManagementController.updateTheoryQuestion);
+router.get('/question-management/problem/:id', authMiddleware, moderatorMiddleware, questionManagementController.getProblem);
+router.post('/question-management/problem/:id', authMiddleware, moderatorMiddleware, questionManagementController.getViewAndInteractionNetworks);
+router.post('/question-management/interactive', authMiddleware, moderatorMiddleware, questionManagementController.createInteractiveQuestion);
 router.delete('/question-management', authMiddleware, moderatorMiddleware, questionManagementController.deleteQuestion);
 router.get('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.getAllProblems);
 router.get('/practice-management/:id', authMiddleware, moderatorMiddleware, problemManagementController.getProblem);

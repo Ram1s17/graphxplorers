@@ -42,3 +42,77 @@ export const mainFeatureItems = [
 export const getNodeLabel = (networkConfig, node) => {
     return networkConfig.isDigitLabelsOnly ? node : networkConfig.letter + node;
 };
+
+export const getSubtypeLabel = (subtype) => {
+    let label = '';
+    switch (subtype) {
+        case 'path':
+            label = "выбор пути";
+            break;
+        case 'capacities':
+            label = "ввод пропускных способностей";
+            break;
+        case 'mincut':
+            label = "минимальный разрез";
+            break;
+        default:
+            label = '';
+    }
+    return label;
+};
+
+export const cytoscapeConfig = {
+    zoom: 1,
+    userPanningEnabled: false,
+    userZoomingEnabled: false,
+    autolock: true,
+    autounselectify: true,
+    style: { width: '95%', height: '95%' },
+    stylesheet: [
+        {
+            selector: 'node',
+            style: {
+                width: 38,
+                height: 38,
+                'background-color': '#E9E9E9',
+                'text-valign': 'center',
+                'text-halign': 'center',
+                'label': 'data(label)'
+            }
+        },
+        {
+            selector: ':selected',
+            style: {
+                'background-color': '#FF7878',
+            }
+        },
+        {
+            selector: '.colored',
+            style: {
+                'background-color': '#FFF',
+                'border-width': '2px'
+            }
+        },
+        {
+            selector: 'edge',
+            style: {
+                width: 2,
+                'line-color': '#000',
+                'target-arrow-color': '#000',
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier',
+                'text-background-color': '#FFF2C6',
+                'text-background-opacity': 1,
+                'label': 'data(label)',
+
+            }
+        },
+        {
+            selector: ':selected',
+            style: {
+                'line-color': '#FF7878',
+                'target-arrow-color': '#FF7878',
+            }
+        }
+    ]
+};

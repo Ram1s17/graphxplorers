@@ -49,7 +49,7 @@ const NetworkConfigPanel = () => {
                 <p className='sub-font-reg reg-font-color mb-1 fs-6'>2) Нажатие ЛКМ по вершине - удаление этой вершины (<b>только последней по порядку</b>).</p>
                 <p className='sub-font-reg reg-font-color mb-1 fs-6'>3) Для перемещения вершины удерживайте её ЛКМ.</p>
                 <p className='sub-font-reg reg-font-color mb-1 fs-6'>4) Нажатие ЛКМ по дуге - удаление этой дуги.</p>
-                <p className='sub-font-reg reg-font-color mb-1 fs-6'><b>ВНИМАНИЕ!</b> Смена нумерации вершин приведет к удаление всех дуг и сбросу значений истока и стока!</p>
+                <p className='sub-font-reg reg-font-color mb-1 fs-6'><b>ВНИМАНИЕ!</b> Смена нумерации вершин приведет к удалению всех дуг и сбросу значений истока и стока!</p>
             </div>
             <div className='d-flex justify-content-end'>
                 <button className='problem-management-button main-border color-2 rounded-4 ps-5 pe-5 pt-2 pb-2 main-font-bold'

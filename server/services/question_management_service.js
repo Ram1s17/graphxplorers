@@ -34,6 +34,17 @@ class QuestionManagementService {
         return newTheoryQuestion;
     }
 
+    async createInteractiveQuestion(question) {
+        const newInteractiveQuestion = (await db.query("INSERT INTO questions (question_type, question_subtype, question_points, question_text, question_content) VALUES($1, $2, $3, $4, $5) RETURNING *", [
+            "интерактивный",
+            question.subtype,
+            question.points,
+            question.text,
+            question.content
+        ])).rows[0];
+        return newInteractiveQuestion;
+    }
+
     async updateTheoryQuestion(id, question) {
         const searchedQuestion = (await db.query("SELECT * FROM questions WHERE question_id = $1 AND question_type LIKE 'теоретический'", [id])).rows;
         if (searchedQuestion.length === 0) {

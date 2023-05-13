@@ -124,7 +124,7 @@ const QuestionViewPanel = ({ setIsViewMod, points, question, answerOptions, setA
                 </div>
             }
             <div className='d-flex justify-content-end mt-4'>
-                <button className='problem-management-button main-border color-2 rounded-4 ps-5 pe-5 pt-2 pb-2 main-font-bold'
+                <button className='problem-management-button main-border color-3 rounded-4 ps-5 pe-5 pt-2 pb-2 main-font-bold'
                     onClick={createOrUpdateTheotyQuestion}>Сохранить</button>
             </div>
         </Col>

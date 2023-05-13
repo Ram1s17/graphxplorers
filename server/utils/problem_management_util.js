@@ -65,15 +65,15 @@ class ProblemManagementUtil {
         let i = +possinblePoints[0], countOfMatches = 0;
         while (i !== 1) {
             for (let stageName of stageNames) {
-                if (evaluationCriteria[i][stageName] > evaluationCriteria[i-1][stageName]) {
-                    throw ApiError.BadRequest(`Количество ошибок на этапе «${mapOfStageNames.get(stageName)}» для ${i} баллов превышает значение на данном этапе для ${i-1} баллов!`);
+                if (evaluationCriteria[i][stageName] > evaluationCriteria[i - 1][stageName]) {
+                    throw ApiError.BadRequest(`Количество ошибок на этапе «${mapOfStageNames.get(stageName)}» для ${i} баллов превышает значение на данном этапе для ${i - 1} баллов!`);
                 }
-                if (evaluationCriteria[i][stageName] === evaluationCriteria[i-1][stageName]) {
+                if (evaluationCriteria[i][stageName] === evaluationCriteria[i - 1][stageName]) {
                     countOfMatches += 1;
                 }
             }
             if (countOfMatches === 4) {
-                throw ApiError.BadRequest(`Критерии для ${i} и ${i-1} баллов ничем не различаются!`);
+                throw ApiError.BadRequest(`Критерии для ${i} и ${i - 1} баллов ничем не различаются!`);
             }
             countOfMatches = 0;
             i--;
@@ -99,6 +99,76 @@ class ProblemManagementUtil {
                 }
             };
         });
+    }
+
+    convertAdjacencyListToNetwork(networkConfig, adjacencyList, nodesList) {
+        const nodes = nodesList.map((node) => {
+            node.data.label = networkConfig.letter + node.data.id;
+            return node;
+        });
+        const edges = [];
+        for (let i = 0; i < adjacencyList.length; i++) {
+            for (let targetNode of adjacencyList[i].entries()) {
+                edges.push({
+                    data: {
+                        source: String(i),
+                        target: String(targetNode[0]),
+                        label: String(targetNode[1]),
+                        capacity: targetNode[1]
+                    }
+                });
+            }
+        }
+        return { nodes, edges };
+    }
+
+    convertAdjacencyListToCapacitiesNetwork(networkConfig, networks, nodesList) {
+        const nodes = nodesList.map((node) => {
+            node.data.label = networkConfig.letter + node.data.id;
+            networks.pathNodes.includes(Number(node.data.id)) ? node.selected = true : node.selected = false;
+            if (node.data.id == networkConfig.source || node.data.id == networkConfig.sink) {
+                node.classes = 'colored';
+            }
+            return node;
+        });
+        const edgesSrc = [];
+        for (let i = 0; i < networks.sourceGraph.length; i++) {
+            for (let targetNode of networks.sourceGraph[i].entries()) {
+                edgesSrc.push({
+                    data: {
+                        source: String(i),
+                        target: String(targetNode[0]),
+                        label: String(targetNode[1]),
+                        capacity: targetNode[1]
+                    },
+                    selected: networks.pathNodes.includes(i) && networks.pathNodes.includes(targetNode[0]) && 
+                              networks.pathNodes.indexOf(targetNode[0]) - networks.pathNodes.indexOf(i) === 1 ? true : false
+                });
+            }
+        }
+        const residualGraph = networks.sourceGraph.slice();
+        for (let i = 0; i < networks.pathNodes.length - 1; i++) {
+            if (!residualGraph[networks.pathNodes[i+1]].has(networks.pathNodes[i])) {
+                residualGraph[networks.pathNodes[i+1]].set(networks.pathNodes[i], 0);
+            }
+        }
+        const edgesRsdl = [];
+        for (let i = 0; i < residualGraph.length; i++) {
+            for (let targetNode of residualGraph[i].entries()) {
+                edgesRsdl.push({
+                    data: {
+                        source: String(i),
+                        target: String(targetNode[0]),
+                        label: String(targetNode[1]),
+                        capacity: targetNode[1]
+                    }
+                });
+            }
+        }
+        return {
+            processedNodesAndEdgesSrc: { nodes, edges: edgesSrc },
+            processedNodesAndEdgesRsdl: { nodes, edges: edgesRsdl }
+        };
     }
 }
 

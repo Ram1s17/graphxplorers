@@ -79,7 +79,7 @@ const AnswerOptionsConfigPanel = ({ currentOptionID, setCurrentOptionID, answerO
                 }}
             />
             <div className='d-flex justify-content-end mt-3'>
-                <button className='problem-management-button main-border color-2 rounded-4 ps-5 pe-5 pt-2 pb-2 main-font-bold'
+                <button className='problem-management-button main-border color-3 rounded-4 ps-5 pe-5 pt-2 pb-2 main-font-bold'
                     onClick={createOrUpdateAnswerOption}>Сохранить вариант ответа</button>
             </div>
         </Col>

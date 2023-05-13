@@ -56,7 +56,7 @@ const ProblemsListPage = () => {
                         <SortBar parametrs={parametrs} setParametrs={setParametrs} />
                     </Col>
                 </Row>
-                <Row className='d-flex justify-content-center'>
+                <Row className='d-flex justify-content-center mb-3'>
                     <Col xl={9}>
                         <Row className='d-flex justify-content-between gap-3'>
                             {problemsList.length > 0

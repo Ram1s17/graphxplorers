@@ -91,14 +91,15 @@ const QuestionsListManagementPage = () => {
                         <SortBar parametrs={parametrs} setParametrs={setParametrs} />
                     </Col>
                 </Row>
-                <Row className='d-flex justify-content-center'>
+                <Row className='d-flex justify-content-center mb-3'>
                     <Col xl={9}>
                         <Row className='d-flex justify-content-between gap-3'>
                             <Col xl={5} className={`${cl.addListItem} ${cl.addButton} main-border rounded-4 p-5 d-flex justify-content-center align-items-center`}
                                 onClick={() => router('/questions/theoretical/new')} >
                                 <i className="bi bi-plus-square fs-3 me-2"></i><i className="bi bi-journal-bookmark-fill fs-3"></i>
                             </Col>
-                            <Col xl={5} className={`${cl.addListItem} ${cl.addButton} main-border rounded-4 p-5 d-flex justify-content-center align-items-center`}>
+                            <Col xl={5} className={`${cl.addListItem} ${cl.addButton} main-border rounded-4 p-5 d-flex justify-content-center align-items-center`}
+                                onClick={() => router('/questions/interactive/new')} >
                                 <i className="bi bi-plus-square fs-3 me-2"></i><i className="bi bi-joystick fs-3"></i>
                             </Col>
                             {questionsList.map(question =>

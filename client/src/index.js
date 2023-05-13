@@ -8,22 +8,25 @@ import { BrowserRouter } from 'react-router-dom';
 import ModalWinStore from './store/modalWinStore';
 import ProblemSolvingStore from './store/problemSolvingStore';
 import ProblemManagementStore from './store/problemManagementStore';
+import QuestionManagementStore from './store/questionManagementStore';
 
 export const store = new Store();
 export const modalWinStore = new ModalWinStore();
+export const questionManagementStore = new QuestionManagementStore();
 export const problemSolvingStore = new ProblemSolvingStore();
 export const problemManagementStore = new ProblemManagementStore();
 
 export const Context = createContext({
     store,
     modalWinStore,
+    questionManagementStore,
     problemSolvingStore,
     problemManagementStore
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Context.Provider value={{ store, modalWinStore, problemSolvingStore, problemManagementStore }}>
+    <Context.Provider value={{ store, modalWinStore, questionManagementStore, problemSolvingStore, problemManagementStore }}>
         <BrowserRouter>
             <App />
         </BrowserRouter>

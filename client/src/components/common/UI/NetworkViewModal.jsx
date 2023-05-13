@@ -46,6 +46,12 @@ const NetworkViewModal = () => {
                             }
                         },
                         {
+                            selector: ':selected',
+                            style: {
+                                'background-color': '#FF7878',
+                            }
+                        },
+                        {
                             selector: '.colored',
                             style: {
                                 'background-color': '#FFF',
@@ -63,7 +69,14 @@ const NetworkViewModal = () => {
                                 'text-background-color': '#FFF2C6',
                                 'text-background-opacity': 1,
                                 'label': 'data(label)',
-
+                
+                            }
+                        },
+                        {
+                            selector: ':selected',
+                            style: {
+                                'line-color': '#FF7878',
+                                'target-arrow-color': '#FF7878',
                             }
                         }
                     ]}
