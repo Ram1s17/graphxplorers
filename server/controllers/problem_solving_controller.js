@@ -124,7 +124,7 @@ class ProblemSolvingController {
     async saveResult(req, res, next) {
         try {
             const { userResult } = req.body;
-            const { countOfMistakes, resultPoints } = problemSolvingUtil.calculatePoints(userResult.evaluationCriteria, userResult.mistakes, userResult.totalPoints);
+            const { countOfMistakes, resultPoints, totalPoints } = problemSolvingUtil.calculatePoints(userResult.evaluationCriteria, userResult.mistakes, userResult.totalPoints);
             const result = {
                 dateOfSolving: userResult.dateOfSolving.split(', ').join(' '),
                 spentTime: userResult.spentTime,
@@ -132,11 +132,12 @@ class ProblemSolvingController {
                 countOfMistakes,
                 stageMistakes: userResult.mistakes,
                 resultPoints,
+                totalPoints,
                 userId: userResult.userId,
                 problemId: userResult.problemId
             };
-            problemSolvingService.saveResult(result);
-            return res.status(200).json({ resultPoints, countOfMistakes });
+            await problemSolvingService.saveResult(result);
+            return res.status(200).json({ resultPoints: resultPoints + '/' + totalPoints, countOfMistakes });
         } catch (e) {
             next(e);
         }

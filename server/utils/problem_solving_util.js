@@ -389,7 +389,7 @@ class ProblemSolvingUtil {
             }
         }
         let countOfMistakes = Object.values(mistakes).reduce((partialSum, a) => partialSum + a, 0);
-        return { countOfMistakes, resultPoints: resultPoints + '/' + totalPoints };
+        return { countOfMistakes, resultPoints, totalPoints };
     }
 
     convertProblem(problems) {
