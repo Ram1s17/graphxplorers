@@ -91,7 +91,7 @@ const QuestionsListManagementPage = () => {
                         <SortBar parametrs={parametrs} setParametrs={setParametrs} />
                     </Col>
                 </Row>
-                <Row className='d-flex justify-content-center mb-3'>
+                <Row className='d-flex justify-content-center mb-3 p-3'>
                     <Col xl={9}>
                         <Row className='d-flex justify-content-between gap-3'>
                             <Col xl={5} className={`${cl.addListItem} ${cl.addButton} main-border rounded-4 p-5 d-flex justify-content-center align-items-center`}

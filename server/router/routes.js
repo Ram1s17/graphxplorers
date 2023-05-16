@@ -2,6 +2,7 @@ const Router = require('express').Router;
 const authController = require('../controllers/auth_controller');
 const adminController = require('../controllers/admin_controller');
 const theoryManagementController = require('../controllers/theory_management_controller');
+const testSolvingController = require('../controllers/test_solving_controller');
 const questionManagementController = require('../controllers/question_management_controller');
 const problemSolvingController = require('../controllers/problem_solving_controller');
 const problemManagementController = require('../controllers/problem_management_controller');
@@ -44,6 +45,13 @@ router.put('/practice-management', authMiddleware, moderatorMiddleware, problemM
 router.delete('/practice-management', authMiddleware, moderatorMiddleware, problemManagementController.deleteProblem);
 
 router.get('/theory', authMiddleware, userMiddleware, theoryManagementController.getTheory);
+router.get('/tests', authMiddleware, userMiddleware, testSolvingController.getQuestionsCount);
+router.get('/tests/:type/:count', authMiddleware, userMiddleware, testSolvingController.getQuestions);
+router.post('/tests/check-theoretical', authMiddleware, userMiddleware, testSolvingController.checkAnswerForTheoreticalQuestion);
+router.post('/tests/check-path', authMiddleware, userMiddleware, testSolvingController.checkAnswerForPathQuestion);
+router.post('/tests/check-capacities', authMiddleware, userMiddleware, testSolvingController.checkAnswerForCapacitiesQuestion);
+router.post('/tests/check-mincut', authMiddleware, userMiddleware, testSolvingController.checkAnswerForMinCutQuestion);
+router.post('/tests/save-result', authMiddleware, userMiddleware, testSolvingController.saveResult);
 router.get('/practice/:id', authMiddleware, userMiddleware, problemSolvingController.getProblem);
 router.post('/check-path', authMiddleware, userMiddleware, problemSolvingController.checkPath);
 router.post('/check-capacities', authMiddleware, userMiddleware, problemSolvingController.checkCapacitiesAndUpdateFlow);

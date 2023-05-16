@@ -11,6 +11,8 @@ import ProblemManagementPage from "../pages/ProblemManagemtentPage";
 import QuestionsListManagementPage from "../pages/QuestionsListManagementPage";
 import TheoryQuestionManagementPage from "../pages/TheoryQuestionManagementPage";
 import InteractiveQuestionManagementPage from "../pages/InteractiveQuestionManagementPage";
+import TestSelectionPage from "../pages/TestSelectionPage";
+import TestSolvingPage from "../pages/TestSolvingPage";
 
 export const adminRoutes = [
     { path: '/main', element: AdminPage }
@@ -28,6 +30,8 @@ export const moderatorRoutes = [
 export const userRoutes = [
     { path: '/main', element: MainUserPage },
     { path: '/theory', element: TheoryPage },
+    { path: '/tests', element: TestSelectionPage },
+    { path: '/tests/testing', element: TestSolvingPage },
     { path: '/practice', element: ProblemsListPage },
     { path: '/practice/:id', element: ProblemPage }
 ];

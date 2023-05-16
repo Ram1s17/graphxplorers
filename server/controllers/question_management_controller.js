@@ -50,25 +50,44 @@ class QuestionManagementController {
             const networks = fordFulkersonSolvierUtil.fordFulkerson(adjacencyList, problem.graph.config, subtype, selectedStep);
             if (subtype !== 'capacities') {
                 const processedNodesAndEdgesSrc = problemSolvingUtil.convertGraph(problem.graph, false);
-                const processedNodesAndEdgesRsdl = problemManagementUtil.convertAdjacencyListToNetwork(problem.graph.config, networks.residualGraph, problem.graph.nodes);
-                const returnedValue = {
-                    questionContent: {
-                        config: problem.graph.config,
-                        viewGraph: {
-                            nodes: processedNodesAndEdgesSrc.slice(0, problem.graph.config.countOfNodes),
-                            edges: processedNodesAndEdgesSrc.slice(problem.graph.config.countOfNodes)
+                const processedNodesAndEdgesRsdl = problemManagementUtil.convertAdjacencyListToNetwork(problem.graph.config, networks.residualGraph, problem.graph.nodes, subtype);
+                let returnedValue = {};
+                if (subtype === 'path') {
+                    returnedValue = {
+                        questionContent: {
+                            config: problem.graph.config,
+                            viewGraph: {
+                                nodes: processedNodesAndEdgesSrc.slice(0, problem.graph.config.countOfNodes),
+                                edges: processedNodesAndEdgesSrc.slice(problem.graph.config.countOfNodes)
+                            },
+                            interactionGraph: {
+                                ...processedNodesAndEdgesRsdl
+                            }
                         },
-                        interactionGraph: {
-                            ...processedNodesAndEdgesRsdl
-                        }
-                    },
-                    viewNetwork: processedNodesAndEdgesSrc,
-                    interactionNetwork: processedNodesAndEdgesRsdl.nodes.concat(processedNodesAndEdgesRsdl.edges)
-                };
+                        viewNetwork: processedNodesAndEdgesSrc,
+                        interactionNetwork: processedNodesAndEdgesRsdl.nodes.concat(processedNodesAndEdgesRsdl.edges)
+                    };
+                }
+                else {
+                    returnedValue = {
+                        questionContent: {
+                            config: problem.graph.config,
+                            viewGraph: {
+                                ...processedNodesAndEdgesRsdl
+                            },
+                            interactionGraph: {
+                                nodes: processedNodesAndEdgesSrc.slice(0, problem.graph.config.countOfNodes),
+                                edges: processedNodesAndEdgesSrc.slice(problem.graph.config.countOfNodes)
+                            },
+                        },
+                        viewNetwork: processedNodesAndEdgesRsdl.nodes.concat(processedNodesAndEdgesRsdl.edges),
+                        interactionNetwork: processedNodesAndEdgesSrc
+                    };
+                }
                 return res.status(200).json(returnedValue);
             }
             else {
-                const { processedNodesAndEdgesSrc, processedNodesAndEdgesRsdl } =   problemManagementUtil.convertAdjacencyListToCapacitiesNetwork(problem.graph.config, networks, problem.graph.nodes);
+                const { processedNodesAndEdgesSrc, processedNodesAndEdgesRsdl } = problemManagementUtil.convertAdjacencyListToCapacitiesNetwork(problem.graph.config, networks, problem.graph.nodes);
                 const returnedValue = {
                     questionContent: {
                         config: problem.graph.config,

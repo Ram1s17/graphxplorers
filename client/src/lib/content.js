@@ -61,6 +61,24 @@ export const getSubtypeLabel = (subtype) => {
     return label;
 };
 
+export const getLabelForTypeOfTest = (type) => {
+    let label = '';
+    switch (type) {
+        case 'theoretical':
+            label = "Теоретический тест";
+            break;
+        case 'interactive':
+            label = "Интерактивный тест";
+            break;
+        case 'mix':
+            label = "Общий тест";
+            break;
+        default:
+            label = '';
+    }
+    return label;
+};
+
 export const cytoscapeConfig = {
     zoom: 1,
     userPanningEnabled: false,
@@ -116,3 +134,45 @@ export const cytoscapeConfig = {
         }
     ]
 };
+
+export const stylesheetForMincut = [
+    {
+        selector: 'node',
+        style: {
+            width: 38,
+            height: 38,
+            'background-color': '#E9E9E9',
+            'text-valign': 'center',
+            'text-halign': 'center',
+            'label': 'data(label)'
+        }
+    },
+    {
+        selector: '.colored',
+        style: {
+            'background-color': '#FFF',
+            'border-width': '2px'
+        }
+    },
+    {
+        selector: 'edge',
+        style: {
+            width: 2,
+            'line-color': '#000',
+            'target-arrow-color': '#000',
+            'target-arrow-shape': 'triangle',
+            'curve-style': 'bezier',
+            'text-background-color': '#FFF2C6',
+            'text-background-opacity': 1,
+            'label': 'data(label)',
+
+        }
+    },
+    {
+        selector: ':selected',
+        style: {
+            'line-color': '#FF7878',
+            'target-arrow-color': '#FF7878',
+        }
+    }
+];

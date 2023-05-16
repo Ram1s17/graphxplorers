@@ -1,0 +1,29 @@
+.selectionItem {
+    background: linear-gradient(102.88deg, #CBFFE4 -16.95%, #FFF2C6 105.23%);
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.25);
+}
+
+.startButton:hover,
+#exitButton:hover,
+#sendAnswerButton:hover,
+#changeCapacityButton:hover,
+#switchNodesButton:hover {
+    background: #FFF;
+}
+
+.answerOption {
+    display: grid;
+    grid-template-columns: 5% 95%;
+}
+
+.answerCheck input {
+    border: 1px solid black !important;
+}
+
+#viewNetworkPanel {
+    height: 60vh;
+}
+
+#interactionNetworkPanel {
+    height: 45vh;
+}

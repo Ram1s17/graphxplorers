@@ -101,9 +101,12 @@ class ProblemManagementUtil {
         });
     }
 
-    convertAdjacencyListToNetwork(networkConfig, adjacencyList, nodesList) {
+    convertAdjacencyListToNetwork(networkConfig, adjacencyList, nodesList, subtype) {
         const nodes = nodesList.map((node) => {
             node.data.label = networkConfig.letter + node.data.id;
+            if (subtype === 'mincut' && (node.data.id == networkConfig.source || node.data.id == networkConfig.sink)) {
+                node.classes = 'colored';
+            }
             return node;
         });
         const edges = [];
