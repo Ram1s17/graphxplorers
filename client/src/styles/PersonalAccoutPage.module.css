@@ -1,0 +1,47 @@
+.resultsList {
+    height: 380px;
+    overflow-y: scroll;
+}
+
+.resultsList::-webkit-scrollbar {
+    overflow: hidden;
+}
+
+.testListItem {
+    background: linear-gradient(102.88deg, #CBFFE4 -16.95%, #FFF2C6 105.23%);
+    display: grid;
+    grid-template-columns: 30% 10% 20% 20% 20%;
+}
+
+.problemListItem {
+    background: linear-gradient(106.88deg, #FFF2C6 39.04%, #CBE4FF 113.51%);
+    display: grid;
+    grid-template-columns: 15% 15% 15% 15% 15% 25%;
+}
+
+#logoutButton:hover {
+    background: #FFF !important;
+}
+
+#usernameInput,
+#emailInput,
+#passwordInput {
+    border: 1px solid black;
+}
+
+#createOrUpdate {
+    background: #FFDFE1 !important;
+}
+
+#usernameInput,
+#emailInput,
+#passwordInput {
+    background: #CBFFE4 !important;
+}
+
+#createOrUpdate:not([disabled]):hover,
+#usernameInput:focus,
+#emailInput:focus,
+#passwordInput:focus {
+    background: #FFFFFF !important;
+}

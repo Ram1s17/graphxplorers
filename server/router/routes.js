@@ -6,6 +6,7 @@ const testSolvingController = require('../controllers/test_solving_controller');
 const questionManagementController = require('../controllers/question_management_controller');
 const problemSolvingController = require('../controllers/problem_solving_controller');
 const problemManagementController = require('../controllers/problem_management_controller');
+const userController = require('../controllers/user_controller');
 const authMiddleware = require('../middlewares/auth_middleware');
 const adminMiddleware = require('../middlewares/admin_middleware');
 const moderatorMiddleware = require('../middlewares/moderator_middleware');
@@ -61,5 +62,7 @@ router.post('/check-nodes', authMiddleware, userMiddleware, problemSolvingContro
 router.post('/check-edges', authMiddleware, userMiddleware, problemSolvingController.checkEdgesOfMinCut);
 router.post('/save-result', authMiddleware, userMiddleware, problemSolvingController.saveResult);
 router.get('/practice', authMiddleware, userMiddleware, problemSolvingController.getAllProblems);
+router.get('/me/:id', authMiddleware, userMiddleware, userController.getUserInfo);
+router.put('/me', authMiddleware, userMiddleware, userController.updatePersonalInfo);
 
 module.exports = router;

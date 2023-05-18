@@ -13,6 +13,7 @@ import TheoryQuestionManagementPage from "../pages/TheoryQuestionManagementPage"
 import InteractiveQuestionManagementPage from "../pages/InteractiveQuestionManagementPage";
 import TestSelectionPage from "../pages/TestSelectionPage";
 import TestSolvingPage from "../pages/TestSolvingPage";
+import PersonalAccountPage from "../pages/PersonalAccountPage";
 
 export const adminRoutes = [
     { path: '/main', element: AdminPage }
@@ -33,7 +34,8 @@ export const userRoutes = [
     { path: '/tests', element: TestSelectionPage },
     { path: '/tests/testing', element: TestSolvingPage },
     { path: '/practice', element: ProblemsListPage },
-    { path: '/practice/:id', element: ProblemPage }
+    { path: '/practice/:id', element: ProblemPage },
+    { path: '/me', element: PersonalAccountPage }
 ];
 
 export const publicRoutes = [
