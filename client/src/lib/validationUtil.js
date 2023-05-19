@@ -1,12 +1,12 @@
 export const checkCapacityAndFlow = (val) => {
-    if (val === '' || val.includes('e') || val.includes('E') || val.includes('-') || Number(val) < 0) {
+    if (val === '' || val.includes('e') || val.includes('E') || val.includes('.') || val.includes(',') || val.includes('-') || Number(val) < 0) {
         return false;
     }
     return true;
 };
 
 const checkNode = (networkConfig, node) => {
-    if (node === '' || node.includes('e') || node.includes('E') || node.includes('-')) {
+    if (node === '' || node.includes('e') || node.includes('E') || node.includes('.') || node.includes(',') || node.includes('-') ) {
         return {
             bool: false,
             message: 'Введено некорректное значение вершины!'
@@ -86,7 +86,7 @@ export const checkDeletedNode = (networkConfig, node) => {
 };
 
 export const checkNumberValue = (val) => {
-    if (val === '' || val.includes('e') || val.includes('E') || val.includes('-') || Number(val) < 0 || Number(val) > 15) {
+    if (val === '' || val.includes('e') || val.includes('E') || val.includes('.') || val.includes(',') || val.includes('-') || Number(val) < 0 || Number(val) > 15) {
         return false;
     }
     return true;

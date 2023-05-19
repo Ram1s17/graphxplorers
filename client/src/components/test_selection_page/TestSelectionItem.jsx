@@ -12,7 +12,8 @@ const TestSelectionItem = ({ title, body, maxValue, type }) => {
 
     const startTest = () => {
         if (countOfQuestions === '' || countOfQuestions.includes('e') || countOfQuestions.includes('E') ||
-            countOfQuestions.includes('-') || Number(countOfQuestions) < 3 || Number(countOfQuestions) > maxValue) {
+            countOfQuestions.includes('.') || countOfQuestions.includes(',') || countOfQuestions.includes('-') ||
+            Number(countOfQuestions) < 3 || Number(countOfQuestions) > maxValue) {
             modalWinStore.setIsErrorType(true);
             modalWinStore.setTitle('Ошибка');
             modalWinStore.setBody('Некорректное количество вопросов!');

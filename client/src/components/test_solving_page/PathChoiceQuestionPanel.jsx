@@ -63,6 +63,7 @@ const PathChoiceQuestionPanel = ({ question, setIsTestCompleted }) => {
                     <h5 className='main-font-bold me-5 mb-0'>Панель просмотра</h5>
                     <p className='sub-font-reg fs-5 text-black mb-0 ms-5'>Баллы за ответ: <b>{question.question_points}</b></p>
                 </div>
+                <p className='sub-font-reg text-black mb-0 ms-5'>Исходная транспортная сеть</p>
                 <div id={cl.viewNetworkPanel} className='w-100 d-flex justify-content-center align-items-center'
                     onMouseOver={() => cyRefView.current.center()}>
                     <CytoscapeComponent

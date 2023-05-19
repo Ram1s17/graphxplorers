@@ -42,7 +42,7 @@ class ProblemSolvingController {
             const pathNetwork = srcNetwork.nodes.concat(problemSolvingUtil.getPathNetworkFromAdjacencyList(networkConfig, adjacencyList, pathNodes));
             return res.status(200).json({
                 pathNetwork,
-                pathNodes: Array.from(processedNodes),
+                pathNodes: Array.from(pathNodes),
                 pathCapacities: Array.from(processedCapacities)
             });
         } catch (e) {

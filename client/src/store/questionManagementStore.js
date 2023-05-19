@@ -76,7 +76,6 @@ export default class QuestionManagementStore {
             const response = await QuestionManagementService.getProblem(problem_id);
             this.setCountOfSteps(response.data.countOfSteps);
             this.setViewNetwork(response.data.network);
-            this.setIsProblemSelected(true);
         } catch (e) {
             throw e;
         }

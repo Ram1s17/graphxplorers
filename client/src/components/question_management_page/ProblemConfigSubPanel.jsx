@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 
-const SubtypeAndStepConfigSubPanel = () => {
+const ProblemConfigSubPanel = () => {
     const { store, modalWinStore, questionManagementStore } = useContext(Context);
 
     useEffect(() => {
@@ -54,8 +54,8 @@ const SubtypeAndStepConfigSubPanel = () => {
     };
 
     return (
-        <div className='w-50'>
-            <div className='d-flex justify-content-between align-items-center mb-5'>
+        <div className='w-75'>
+            <div className='d-flex justify-content-between align-items-start mb-5'>
                 <div className='d-flex flex-column ms-4'>
                     <p className='main-font-bold fs-4 mb-2'>Выберите подтип вопроса:</p>
                     <select className='rounded-4 main-border ps-4 pe-4 pt-1 pb-1'
@@ -78,6 +78,14 @@ const SubtypeAndStepConfigSubPanel = () => {
                         )}
                     </select>
                 </div>
+                <div className='d-flex flex-column me-4'>
+                    <div className='d-flex justify-content-between'>
+                        <p className='main-font-bold fs-4 mb-0 me-3'>Количество баллов:</p>
+                        <input type="number" min={1} max={10} className='rounded-4 sub-font-reg text-center bg-white' autoComplete='off' disabled={!questionManagementStore.isProblemSelected}
+                            value={questionManagementStore.points} onChange={(e) => questionManagementStore.setPoints(e.target.value)} />
+                    </div>
+                    <p className='sub-font-reg reg-font-color mb-0 fs-6 text-center'>*Введите величину в диапaзоне 1-10 баллов</p>
+                </div>
             </div>
             <div className='d-flex justify-content-end mt-1'>
                 <button className='problem-management-button main-border color-3 rounded-4 ps-5 pe-5 pt-2 pb-2 main-font-bold me-2'
@@ -91,4 +99,4 @@ const SubtypeAndStepConfigSubPanel = () => {
     );
 };
 
-export default observer(SubtypeAndStepConfigSubPanel);
+export default observer(ProblemConfigSubPanel);

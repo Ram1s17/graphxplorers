@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import CustomNavbar from "../components/common/UI/Navbar/CustomNavbar";
 import cl from '../styles/QuestionManagementPage.module.css';
@@ -8,8 +8,9 @@ import NetworksShowPanel from "../components/question_management_page/NetworksSh
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
 import { useNavigate } from "react-router-dom";
-import ProblemAndPointsConfigSubPanel from "../components/question_management_page/ProblemAndPointsConfigSubPanel";
-import SubtypeAndStepConfigSubPanel from "../components/question_management_page/SubtypeAndStepConfigSubPanel";
+import ProblemSelectionSubPanel from "../components/question_management_page/ProblemSelectionSubPanel";
+import ProblemConfigSubPanel from "../components/question_management_page/ProblemConfigSubPanel";
+import { checkNumberValue } from "../lib/validationUtil";
 
 const InteractiveQuestionManagementPage = () => {
     const { store, modalWinStore, questionManagementStore } = useContext(Context);
@@ -20,20 +21,27 @@ const InteractiveQuestionManagementPage = () => {
     }, []);
 
     const createInteractiveQuestion = async () => {
-        try {
-            const response = await questionManagementStore.createInteractiveQuestion();
-            modalWinStore.setIsSuccessType(true);
-            modalWinStore.setTitle('Успешно');
-            modalWinStore.setBody(response.data);
-            router('/questions');
+        if (!checkNumberValue(questionManagementStore.points) || Number(questionManagementStore.points) > 10 || Number(questionManagementStore.points) === 0) {
+            modalWinStore.setIsErrorType(true);
+            modalWinStore.setTitle('Ошибка');
+            modalWinStore.setBody('Некорректное количество баллов!');
         }
-        catch (e) {
-            if (e?.status === 401) {
-                await store.logout();
-                store.setError({ bool: true, message: e?.message });
+        else {
+            try {
+                const response = await questionManagementStore.createInteractiveQuestion();
+                modalWinStore.setIsSuccessType(true);
+                modalWinStore.setTitle('Успешно');
+                modalWinStore.setBody(response.data);
+                router('/questions');
             }
-            else if (e?.status === 500 || e?.status === 503) {
-                store.setError({ bool: true, message: e?.message });
+            catch (e) {
+                if (e?.status === 401) {
+                    await store.logout();
+                    store.setError({ bool: true, message: e?.message });
+                }
+                else if (e?.status === 500 || e?.status === 503) {
+                    store.setError({ bool: true, message: e?.message });
+                }
             }
         }
     };
@@ -62,8 +70,8 @@ const InteractiveQuestionManagementPage = () => {
                     <Col>
                         <Row className={`${cl.managementPanel} rounded-4 p-4 m-2`}>
                             <Col xl={12} className='mb-3 d-flex'>
-                                <ProblemAndPointsConfigSubPanel />
-                                <SubtypeAndStepConfigSubPanel />
+                                <ProblemSelectionSubPanel />
+                                <ProblemConfigSubPanel />
                             </Col>
                             <NetworksShowPanel />
                             <div className='d-flex justify-content-end mt-1'>
