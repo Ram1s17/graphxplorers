@@ -17,8 +17,8 @@ export default class ProblemManagementService {
         return $api.post('/practice-management', { points, complexity, graph, evaluationCriteria });
     }
 
-    static async updateProblem(problemId, points, complexity, graph, evaluationCriteria) {
-        return $api.put('/practice-management', { problemId, points, complexity, graph, evaluationCriteria });
+    static async updateProblem(problemId, points, complexity, graph, evaluationCriteria, deletedCriteriaArray) {
+        return $api.put('/practice-management', { problemId, points, complexity, graph, evaluationCriteria, deletedCriteriaArray });
     }
 
     static async deleteProblem(id) {

@@ -22,7 +22,6 @@ export default class ProblemSolvingStore {
     pathNodes = [];
     pathCapacities = [];
     networkConfig = {};
-    evaluationCriteria = {};
     isChoosingNewCapacities = false;
     areCapacitiesUpdated = false;
     isChoosingMinCut = false;
@@ -133,7 +132,6 @@ export default class ProblemSolvingStore {
         this.setPathNodes([]);
         this.setPathCapacities([]);
         this.setNetworkConfig({});
-        this.setEvaluationCriteria({});
         this.setIsChoosingNewCapacities(false);
         this.setAreCapacitiesUpdated(false);
         this.setIsChoosingMinCut(false);
@@ -233,7 +231,6 @@ export default class ProblemSolvingStore {
                 dateOfSolving: (new Date()).toLocaleString(),
                 spentTime: this.time,
                 countOfSteps: this.step,
-                evaluationCriteria: this.evaluationCriteria,
                 mistakes: this.mistakes,
                 totalPoints: this.points,
                 userId,

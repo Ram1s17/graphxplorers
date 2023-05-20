@@ -16,11 +16,10 @@ class ProblemManagementService {
     }
 
     async createProblem(problem) {
-        const newProblem = (await db.query("INSERT INTO problems (complexity, points, graph, evaluation_criteria) VALUES($1, $2, $3, $4) RETURNING *", [
+        const newProblem = (await db.query("INSERT INTO problems (complexity, points, graph) VALUES($1, $2, $3) RETURNING *", [
             problem.complexity,
             problem.points,
-            problem.graph,
-            problem.evaluationCriteria
+            problem.graph
         ])).rows[0];
         return newProblem;
     }
@@ -30,11 +29,10 @@ class ProblemManagementService {
         if (searchedProblem.length === 0) {
             throw ApiError.BadRequest('Такой задачи не существует!');
         }
-        const updatedProblem = (await db.query("UPDATE problems SET complexity = $1, points = $2, graph = $3, evaluation_criteria = $4 WHERE problem_id = $5 RETURNING *", [
+        const updatedProblem = (await db.query("UPDATE problems SET complexity = $1, points = $2, graph = $3 WHERE problem_id = $4 RETURNING *", [
             problem.complexity,
             problem.points,
             problem.graph,
-            problem.evaluationCriteria,
             id
         ])).rows[0];
         return updatedProblem;

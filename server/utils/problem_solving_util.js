@@ -369,27 +369,30 @@ class ProblemSolvingUtil {
         }
     }
 
-    calculatePoints(evaluationCriteria, mistakes, totalPoints) {
-        let impossiblePoints = [];
-        for (let points of Object.keys(evaluationCriteria)) {
+    calculatePoints(evaluationCriteria, mistakes) {
+        const stageNamesMap = new Map([
+            ["path", "max_count_of_path_mistakes"],
+            ["newCapacities", "max_count_of_new_capacities_mistakes"],
+            ["currentFlow", "max_count_of_current_flow_mistakes"],
+            ["minCut", "max_count_of_min_cut_mistakes"]
+        ]);
+        let isPossiblePointsFounded = true;
+        let resultPoints = 0;
+        for (let criteria of evaluationCriteria) {
             for (let stageName of Object.keys(mistakes)) {
-                if (evaluationCriteria[points][stageName] < mistakes[stageName]) {
-                    impossiblePoints.push(+points);
+                if (criteria[stageNamesMap.get(stageName)] < mistakes[stageName]) {
+                    isPossiblePointsFounded = false;
                     break;
                 }
             }
-        }
-        const possiblePoints = [0].concat(Object.keys(evaluationCriteria)).map((points) => {
-            return Number(points);
-        }).filter((points) => !impossiblePoints.includes(points));
-        let resultPoints = -1;
-        for (let points of possiblePoints) {
-            if (points > resultPoints) {
-                resultPoints = points;
+            if (isPossiblePointsFounded) {
+                resultPoints = criteria.points;
+                break;
             }
+            isPossiblePointsFounded = true;
         }
         let countOfMistakes = Object.values(mistakes).reduce((partialSum, a) => partialSum + a, 0);
-        return { countOfMistakes, resultPoints, totalPoints };
+        return { countOfMistakes, resultPoints };
     }
 
     convertProblem(problems) {

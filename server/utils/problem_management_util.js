@@ -53,30 +53,16 @@ class ProblemManagementUtil {
         }
     }
 
-    checkEvaluationCriteria(evaluationCriteria) {
-        const possinblePoints = Object.keys(evaluationCriteria).reverse();
-        const stageNames = Object.keys(evaluationCriteria['1']);
-        const mapOfStageNames = new Map([
-            ["path", "Выбор пути"],
-            ["newCapacities", "Ввод новых пропускных способностей"],
-            ["currentFlow", "Обновление величины текущего потока"],
-            ["minCut", "Нахождение минимального разреза"]
-        ]);
-        let i = +possinblePoints[0], countOfMatches = 0;
-        while (i !== 1) {
-            for (let stageName of stageNames) {
-                if (evaluationCriteria[i][stageName] > evaluationCriteria[i - 1][stageName]) {
-                    throw ApiError.BadRequest(`Количество ошибок на этапе «${mapOfStageNames.get(stageName)}» для ${i} баллов превышает значение на данном этапе для ${i - 1} баллов!`);
-                }
-                if (evaluationCriteria[i][stageName] === evaluationCriteria[i - 1][stageName]) {
-                    countOfMatches += 1;
-                }
-            }
-            if (countOfMatches === 4) {
-                throw ApiError.BadRequest(`Критерии для ${i} и ${i - 1} баллов ничем не различаются!`);
-            }
-            countOfMatches = 0;
-            i--;
+    checkEvaluationCriteria(evaluationCriteria, points) {
+        let correctPoints = Array.from({ length: points }, (_, i) => i + 1);
+        let possiblePoints = new Set();
+        for (let criteria of evaluationCriteria) {
+            possiblePoints.add(criteria.points);
+        }
+        possiblePoints = Array.from(possiblePoints);
+        const diff = correctPoints.filter(points => !possiblePoints.includes(points));
+        if (diff.length !== 0 || correctPoints.length !== possiblePoints.length) {
+            throw ApiError.BadRequest(`Не заданы критерии для следующего количества баллов: ${diff.join(', ')}`);
         }
     }
 

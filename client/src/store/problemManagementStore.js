@@ -16,14 +16,7 @@ export default class ProblemManagementStore {
     sourceNetwork = [];
     nodesList = [];
     edgesList = [];
-    evaluationCriteria = {
-        1: {
-            path: 0,
-            newCapacities: 0,
-            currentFlow: 0,
-            minCut: 0
-        }
-    };
+    evaluationCriteria = [];
     isNetConfigChosen = false;
 
     constructor() {
@@ -81,15 +74,7 @@ export default class ProblemManagementStore {
         this.setSourceNetwork([]);
         this.setNodesList([]);
         this.setEdgesList([]);
-        this.setEvaluationCriteria({
-                1: {
-                    path: 0,
-                    newCapacities: 0,
-                    currentFlow: 0,
-                    minCut: 0
-                }
-            }
-        );
+        this.setEvaluationCriteria([]);
         this.setIsNetConfigChosen(false);
     }
 
@@ -121,10 +106,10 @@ export default class ProblemManagementStore {
     async createProblem() {
         try {
             const graph = {
-                config: this.networkConfig, 
-                nodes: this.nodesList, 
+                config: this.networkConfig,
+                nodes: this.nodesList,
                 edges: this.edgesList
-            }
+            };
             const response = await ProblemManagementService.createProblem(this.points, this.complexity, graph, this.evaluationCriteria);
             return response;
         } catch (e) {
@@ -132,14 +117,14 @@ export default class ProblemManagementStore {
         }
     }
 
-    async updateProblem(problem_id) {
+    async updateProblem(problem_id, deletedCriteriaArray) {
         try {
             const graph = {
-                config: this.networkConfig, 
-                nodes: this.nodesList, 
+                config: this.networkConfig,
+                nodes: this.nodesList,
                 edges: this.edgesList
-            }
-            const response = await ProblemManagementService.updateProblem(problem_id, this.points, this.complexity, graph, this.evaluationCriteria);
+            };
+            const response = await ProblemManagementService.updateProblem(problem_id, this.points, this.complexity, graph, this.evaluationCriteria, deletedCriteriaArray);
             return response;
         } catch (e) {
             throw e;

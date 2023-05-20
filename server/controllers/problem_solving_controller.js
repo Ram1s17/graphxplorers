@@ -1,4 +1,5 @@
 const problemSolvingService = require('../services/problem_solving_service');
+const evaluationCriteriaService = require('../services/evaluation_criteria_service');
 const problemSolvingUtil = require('../utils/problem_solving_util');
 
 class ProblemSolvingController {
@@ -21,7 +22,6 @@ class ProblemSolvingController {
             const currentFlowInNetwork = problemSolvingUtil.convertGraph(problem.graph, true);
             return res.status(200).json({
                 points: problem.points,
-                evaluationCriteria: problem.evaluation_criteria,
                 networkConfig: problem.graph.config,
                 residualNetwork,
                 currentFlowInNetwork
@@ -124,7 +124,8 @@ class ProblemSolvingController {
     async saveResult(req, res, next) {
         try {
             const { userResult } = req.body;
-            const { countOfMistakes, resultPoints, totalPoints } = problemSolvingUtil.calculatePoints(userResult.evaluationCriteria, userResult.mistakes, userResult.totalPoints);
+            const evaluationCriteria = await evaluationCriteriaService.getEvaluationCriteria(userResult.problemId);
+            const { countOfMistakes, resultPoints } = problemSolvingUtil.calculatePoints(evaluationCriteria, userResult.mistakes);
             const result = {
                 dateOfSolving: userResult.dateOfSolving.split(', ').join(' '),
                 spentTime: userResult.spentTime,
@@ -132,12 +133,12 @@ class ProblemSolvingController {
                 countOfMistakes,
                 stageMistakes: userResult.mistakes,
                 resultPoints,
-                totalPoints,
+                totalPoints: userResult.totalPoints,
                 userId: userResult.userId,
                 problemId: userResult.problemId
             };
             await problemSolvingService.saveResult(result);
-            return res.status(200).json({ resultPoints: resultPoints + '/' + totalPoints, countOfMistakes });
+            return res.status(200).json({ resultPoints: resultPoints + '/' + userResult.totalPoints, countOfMistakes });
         } catch (e) {
             next(e);
         }
