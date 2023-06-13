@@ -86,8 +86,8 @@ class ProblemSolvingController {
         try {
             const { networkConfig, network, pathCapacities, currentFlow, prevFlow } = req.body;
             const pathFlow = problemSolvingUtil.getPathFlow(pathCapacities);
-            const adjacencyList = problemSolvingUtil.getAdjacencyList(networkConfig, network.slice(networkConfig.countOfNodes), false);
             problemSolvingUtil.checkCurrentFlow(prevFlow, pathFlow, currentFlow);
+            const adjacencyList = problemSolvingUtil.getAdjacencyList(networkConfig, network.slice(networkConfig.countOfNodes), false);
             const residualNetwork = problemSolvingUtil.getResidualNetwork(networkConfig, network.slice(0, networkConfig.countOfNodes), adjacencyList);
             return res.status(200).json({
                 residualNetwork

@@ -63,6 +63,7 @@ class AuthService {
             id: user[0].user_id,
             role: user[0].user_role
         });
+        await tokenService.saveToken(user[0].user_id, tokens.refreshToken);
         return { ...tokens, userId: user[0].user_id, userRole: user[0].user_role, isConfirmed: user[0].is_confirmed };
     }
 

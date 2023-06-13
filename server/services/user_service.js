@@ -3,8 +3,13 @@ const bcrypt = require('bcryptjs');
 const tokenService = require('./token_service');
 const mailService = require('./mail_service');
 const ApiError = require('../exceptions/api_error');
+const types = require('pg').types;
 
 class UserService {
+    constructor() {
+        types.setTypeParser(1114, str => str);
+    }
+
     async getUserInfo(id) {
         const user = (await db.query("SELECT * FROM users WHERE user_id = $1", [id])).rows[0];
         return user;

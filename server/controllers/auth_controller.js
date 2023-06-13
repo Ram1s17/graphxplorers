@@ -38,6 +38,7 @@ class AuthController {
         try {
             const { refreshToken } = req.cookies;
             const userData = await authService.refresh(refreshToken);
+            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
             return res.status(200).json({ accessToken: userData.accessToken, userId: userData.userId, userRole: userData.userRole, isConfirmed: userData.isConfirmed });
         } catch (e) {
             next(e);

@@ -27,7 +27,7 @@ export const useProblemResults = (problemResults, dateQuery, query, sort) => {
     const sortedProblemResults = useSortedProblemResults(searchedProblemResults, sort);
     const sortedAndSearchedProblemResults = useMemo(() => {
         if (dateQuery)
-            return sortedProblemResults.filter(result =>  result.date_of_solving.split('T')[0] === dateQuery);
+            return sortedProblemResults.filter(result =>  result.date_of_solving.split(' ')[0] === dateQuery);
         return sortedProblemResults;
     }, [dateQuery, sortedProblemResults]);
 

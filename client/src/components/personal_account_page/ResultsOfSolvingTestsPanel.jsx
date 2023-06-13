@@ -4,11 +4,11 @@ import cl from "../../styles/PersonalAccoutPage.module.css";
 
 const ResultsOfSolvingTestsPanel = ({ testResults }) => {
     const getDate = (dateAndTime) => {
-        return dateAndTime.split('T')[0].split('-').reverse().join('.');
+        return dateAndTime.split(' ')[0].split('-').reverse().join('.');
     };
 
     const getTime = (dateAndTime) => {
-        return dateAndTime.split('T')[1].split('.')[0];
+        return dateAndTime.split(' ')[1];
     };
 
     return (

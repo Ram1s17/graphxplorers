@@ -133,9 +133,6 @@ class ProblemSolvingUtil {
         }
         pathNodes.add(networkConfig.source);
         this.customDFS(pathAdjacencyList, visited, networkConfig.source, pathNodes, processedCapacities);
-        if (!visited[networkConfig.sink]) {
-            throw ApiError.BadRequest('Выбран неверный путь!');
-        }
         if (pathNodes.size !== srcProcessedNodes.size) {
             throw ApiError.BadRequest('Выбран неверный путь!');
         }
